@@ -1,49 +1,75 @@
-  <!doctype html>
-  @if(Session::has('rtl'))
-  <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
-  @else
-  <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-  @endif
-  <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports" name="description" />
-  <meta content="" name="author" />
+<!doctype html>
+<html lang="en">
 
-  <!-- CSRF Token -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Datum | CRM Admin Dashboard Template</title>
 
-  @include('admin.layouts.head')
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+
+    <link rel="stylesheet" href="{{ asset('css/backend-plugin.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backend.css?v=1.0.0') }}">
 </head>
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-<div class="page-wrapper">
-  <!-- BEGIN HEADER -->
-      @include('admin.layouts.topbar')
-  <!-- END HEADER -->
-  <!-- BEGIN HEADER & CONTENT DIVIDER -->
-  <div class="clearfix"> </div>
-  <!-- END HEADER & CONTENT DIVIDER -->
-  <!-- BEGIN CONTAINER -->
-  <div class="page-container">
-  <!-- BEGIN SIDEBAR -->
-      @include('admin.layouts.sidebar')
-  <!-- END SIDEBAR -->
-  <!-- BEGIN CONTENT -->
-  <div class="page-content-wrapper">
-  <!-- BEGIN CONTENT BODY -->
-      @section('content')
-      @show
-  <!-- END CONTENT BODY -->
-  </div>
-  <!-- END CONTENT -->
-  </div>
-  <!-- END CONTAINER -->
-  <!-- BEGIN FOOTER -->
-       @include('admin.layouts.footer')
-  <!-- END FOOTER -->
-</div>
-@include('admin.layouts.scripts')
 
+<body class="  ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+        @include('admin.layouts.sidebar')
+        @include('admin.layouts.topbar')
+
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+
+                </div>
+                <!-- Page end  -->
+            </div>
+        </div>
+    </div>
+    <!-- Wrapper End-->
+    @include('admin.layouts.footer')
+    <!-- Backend Bundle JavaScript -->
+    <script src="{{ asset('js/backend-bundle.min.js') }}"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="{{ asset('js/customizer.js') }}"></script>
+
+    <script src="{{ asset('js/sidebar.js') }}"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="{{ asset('js/flex-tree.min.js') }}"></script>
+    <script src="{{ asset('js/tree.js') }}"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="{{ asset('js/table-treeview.js') }}"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="{{ asset('js/vector-map-custom.js') }}"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="{{ asset('js/chart-custom.js') }}"></script>
+    <script src="{{ asset('js/charts/01.js') }}"></script>
+    <script src="{{ asset('js/charts/02.js') }}"></script>
+
+    <!-- slider JavaScript -->
+    <script src="{{ asset('js/slider.js') }}"></script>
+
+    <!-- Emoji picker -->
+    <script src="{{asset('vendor/emoji-picker-element/index.js')}}" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
 </html>

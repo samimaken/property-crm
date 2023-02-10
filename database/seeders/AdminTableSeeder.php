@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
+use App\Models\User;
+
 class AdminTableSeeder extends Seeder
 {
     /**
@@ -18,8 +20,15 @@ class AdminTableSeeder extends Seeder
         $data = array('name'=>'admin'
             ,'email'=>'admin@admin.com'
             ,'email_verified_at'=>now()
-            ,'password'=>Hash::make('12345678'));
+            ,'password'=>Hash::make('password'));
 
         Admin::create($data);
+
+        $user = new User();
+        $user->name = "client";
+        $user->email = "client@gmail.com";
+        $user->password = Hash::make('password');
+        $user->email_verified_at =now();
+        $user->save();
     }
 }

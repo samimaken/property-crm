@@ -17,13 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes();
+Auth::routes(['register' => false, 'reset']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix'=>'admin'],function(){
     Route::group(['middleware'=>'admin.guest'],function(){
-        Route::view('/', 'admin.auth.login')->name('admin.login');
+        Route::view('/', 'admin.auth.login')->name('admin_login');
         Route::post('login', [App\Http\Controllers\admin\LoginController::class, 'index'])->name('admin.login');
 
         //forgot password
