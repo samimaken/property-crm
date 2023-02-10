@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +38,7 @@ Route::group(['prefix'=>'admin'],function(){
     Route::group(['middleware'=>'admin.auth'],function(){
         Route::get('dashboard/{lang?}',[App\Http\Controllers\admin\AdminController::class, 'index'])->name('admin.dashboard');
         Route::get('logout',[App\Http\Controllers\admin\LoginController::class, 'logout'])->name('admin.logout');
+        //properties
+        Route::resource('properties', PropertyController::class);
     });
 });

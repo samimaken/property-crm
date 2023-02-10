@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/backend-plugin.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend.css?v=1.0.0') }}">
+    <link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}">
+    @yield('page_styles')
 </head>
 
 <body class="  ">
@@ -28,7 +30,7 @@
         <div class="content-page">
             <div class="container-fluid">
                 <div class="row">
-
+                  @yield('content')
                 </div>
                 <!-- Page end  -->
             </div>
@@ -70,6 +72,9 @@
 
     <!-- app JavaScript -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('admin.include.sweetalert')
+    @yield('page_scripts')
 </body>
 
 </html>

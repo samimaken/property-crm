@@ -1,5 +1,5 @@
 
-{{-- 
+{{--
 
 @foreach ($errors->all() as $error)
 	<div class="alert alert-danger alert-dismissible">
@@ -12,7 +12,7 @@
 @if (Session::has('success'))
 
 <script>
-	swal({
+	Swal.fire({
 		  title: "Good job!",
 		  text: "{!! Session::get('success') !!}",
 		  icon: "success",
@@ -23,20 +23,9 @@
 
 @if (Session::has('error'))
 	<script>
-	swal({
+	Swal.fire({
 		  title: "Oooops!",
 		  text: "{!! Session::get('error') !!}",
-		  icon: "error",
-		  button: "Ok",
-		});
-</script>
-@endif
-
-@if (count($errors->all())>0)
-	<script>
-	swal({
-		  title: "Oooops!",
-		  text: "{{ $errors->all()[0] }}",
 		  icon: "error",
 		  button: "Ok",
 		});
