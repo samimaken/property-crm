@@ -38,6 +38,10 @@ class PropertyController extends Controller
             'conference_room' => 'required',
             'fully_furnished' => 'required',
             'address' => 'required',
+            'pma_agreement' => 'required|mimes:pdf',
+            'lat' => 'required'
+        ], [
+            'lat.required' => "Please Chose Location."
         ]);
         try {
             $item = new Property();
@@ -53,6 +57,16 @@ class PropertyController extends Controller
             $item->conference_room =  $request->conference_room;
             $item->fully_furnished =  $request->fully_furnished;
             $item->address =  $request->address;
+            $item->lat =  $request->lat;
+            $item->lng =  $request->lng;
+            if($request->file('pma_agreement')){
+                $file = $request->file('pma_agreement');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $path = $file->move('pma-agreement/resources', $filename);
+                $file = '/pma-agreement/resources/' . $filename;
+                $item->pma_agreement = $file;
+            }
             $item->save();
             return  Redirect(route('properties.index'))->with('success', 'Property Created Successfully');
         } catch (Exception $e) {
@@ -83,6 +97,10 @@ class PropertyController extends Controller
             'conference_room' => 'required',
             'fully_furnished' => 'required',
             'address' => 'required',
+            'pma_agreement' => 'nullable|mimes:pdf',
+            'lat' => 'required'
+        ], [
+            'lat.required' => "Please Chose Location"
         ]);
         try {
             $item->name =  $request->name;
@@ -97,6 +115,16 @@ class PropertyController extends Controller
             $item->conference_room =  $request->conference_room;
             $item->fully_furnished =  $request->fully_furnished;
             $item->address =  $request->address;
+            $item->lat =  $request->lat;
+            $item->lng =  $request->lng;
+            if($request->file('pma_agreement')){
+                $file = $request->file('pma_agreement');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $path = $file->move('pma-agreement/resources', $filename);
+                $file = '/pma-agreement/resources/' . $filename;
+                $item->pma_agreement = $file;
+            }
             $item->save();
 
             return  Redirect(route('properties.index'))->with('success', 'Property Updatd Successfully');
@@ -109,7 +137,7 @@ class PropertyController extends Controller
     {
         try {
             Property::findOrFail($id)->delete();
-            return Redirect(route('properties.index'))->with('success', 'Property Deleted Successfully');
+            return Redirect(route('properties.index'))->with('success', 'Property Archived Successfully');
         } catch (Exception $e) {
             return Redirect(route('properties.index'))->with('error', $e->getMessage());
         }

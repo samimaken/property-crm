@@ -26,6 +26,7 @@
                             <th>PMA Contract End Date</th>
                             <th>AED Value</th>
                             <th>Sqft Size</th>
+                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -34,10 +35,11 @@
                             <tr>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->location}}</td>
-                                <td>{{$item->pma_contract_start_date}}</td>
-                                <td>{{$item->pma_contract_end_date}}</td>
+                                <td>{{$item->start_date_format}}</td>
+                                <td>{{$item->end_date_format}}</td>
                                 <td>{{$item->aed_value}}</td>
                                 <td>{{$item->sqft_size}}</td>
+                                <td>{{$item->created_at}}</td>
                                 <td>
                                     <div class="d-flex gap-1">
                                         <a class="btn btn-sm btn-primary" href="{{route('properties.edit', ['property' => $item->id, 'type' => request()->type])}}">Edit
@@ -47,7 +49,7 @@
                                             @method('DELETE')
                                             @csrf
                                             <button class="btn btn-sm  btn-danger delete ml-2"
-                                                data-id="{{ $item->id }}">Delete</button>
+                                                data-id="{{ $item->id }}">Archive</button>
                                         </form>
                                     </div>
                                 </td>
@@ -69,7 +71,6 @@
             let id = $(this).attr('data-id')
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You won't be able to revert this!",
                 icon: 'warning',
                 showDenyButton: false,
                 showCancelButton: true,

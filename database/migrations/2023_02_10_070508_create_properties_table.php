@@ -27,6 +27,10 @@ class CreatePropertiesTable extends Migration
             $table->boolean('meeting_room')->default(0);
             $table->boolean('conference_room')->default(0);
             $table->boolean('fully_furnished')->default(0);
+            $table->string('pma_agreement');
+            $table->string('lat');
+            $table->string('lng');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
