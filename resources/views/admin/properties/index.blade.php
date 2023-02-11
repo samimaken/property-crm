@@ -42,9 +42,11 @@
                                 <td>{{$item->created_at}}</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <a class="btn btn-sm btn-primary" href="{{route('properties.edit', ['property' => $item->id, 'type' => request()->type])}}">Edit
-                                          </a>
-                                        <form action="{{ route('properties.destroy', ['property' => $item->id, 'type' => request()->type]) }}"
+                                        <a class="btn btn-sm btn-primary" href="{{route('properties.edit', ['property' => $item->id])}}">Edit
+                                        </a>
+                                        <a class="btn btn-sm btn-primary ml-2" href="{{route('properties.show', ['property' => $item->id])}}">View
+                                        </a>
+                                        <form action="{{ route('properties.destroy', ['property' => $item->id]) }}"
                                             method="POST" id="deleteForm-{{ $item->id }}">
                                             @method('DELETE')
                                             @csrf

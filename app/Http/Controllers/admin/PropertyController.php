@@ -17,6 +17,11 @@ class PropertyController extends Controller
         return view('admin.properties.index', compact('data'));
     }
 
+    public function show($property) {
+        $property = Property::findOrFail($property);
+        return view('admin.properties.show')->with('item', $property);
+    }
+
     public function create()
     {
         $property = new Property();
