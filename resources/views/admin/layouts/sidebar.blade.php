@@ -24,7 +24,7 @@
                         <span class="ml-2">Dashboard</span>
                     </a>
                 </li>
-                <li class="@if(Route::is('properties.index')) {{'active'}} @endif sidebar-layout">
+                <li class="@if(Route::is('properties.index') || Route::is('properties.create') || Route::is('properties.edit') || Route::is('properties.show')) {{'active'}} @endif sidebar-layout">
                     <a href="{{route('properties.index')}}" class="svg-icon">
                         <i class="">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">

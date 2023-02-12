@@ -12,9 +12,12 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         $query = Property::query();
-
+         if($request->type == 'archived') {
+            $query->onlyTrashed();
+         }
         $data = $query->get();
-        return view('admin.properties.index', compact('data'));
+        $archived = Property::onlyTrashed()->count();
+        return view('admin.properties.index', compact('data'))->with('archived', $archived);
     }
 
     public function show($property) {
@@ -145,6 +148,16 @@ class PropertyController extends Controller
             return Redirect(route('properties.index'))->with('success', 'Property Archived Successfully');
         } catch (Exception $e) {
             return Redirect(route('properties.index'))->with('error', $e->getMessage());
+        }
+    }
+
+    public function restore($id) {
+        try {
+            // dd($id);
+            Property::where('id', $id)->restore();
+            return Redirect()->back()->with('success', 'Property UnArchived Successfully');
+        } catch (Exception $e) {
+            return Redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

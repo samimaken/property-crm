@@ -105,8 +105,8 @@
                         <div class="col-md-5 col-12 mb-3 mt-2 order-md-2 order-1">
                             <input id="pac-input" name="location" class="controls form-control w-50" style="margin-top: 60px" type="text" placeholder="Location" value="{{ isset($item->location) ? $item->location : '' }}">
                             <div class="container w-100" id="map-canvas" style="height:390px;"></div>
-                            <input type="hidden" name="lat" id="lat">
-                            <input type="hidden" name="lng" id="lng">
+                            <input type="hidden" name="lat" id="lat" value="{{$item->lat}}">
+                            <input type="hidden" name="lng" id="lng" value="{{$item->lng}}">
                             @error('lat')
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror

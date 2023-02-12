@@ -40,5 +40,6 @@ Route::group(['prefix'=>'admin'],function(){
         Route::get('logout',[App\Http\Controllers\admin\LoginController::class, 'logout'])->name('admin.logout');
         //properties
         Route::resource('properties', PropertyController::class);
+        Route::post('properties/unarchive/{id}', [PropertyController::class, 'restore'])->name('properties.unarchive');
     });
 });
