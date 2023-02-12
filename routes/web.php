@@ -41,5 +41,6 @@ Route::group(['prefix'=>'admin'],function(){
         //properties
         Route::resource('properties', PropertyController::class);
         Route::post('properties/unarchive/{id}', [PropertyController::class, 'restore'])->name('properties.unarchive');
+        Route::delete('properties/permanent/delete/{id}', [PropertyController::class, 'permanentDelete'])->name('properties.delete');
     });
 });

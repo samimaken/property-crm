@@ -155,7 +155,17 @@ class PropertyController extends Controller
         try {
             // dd($id);
             Property::where('id', $id)->restore();
-            return Redirect()->back()->with('success', 'Property UnArchived Successfully');
+            return Redirect()->back()->with('success', 'Property Unarchived Successfully');
+        } catch (Exception $e) {
+            return Redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function permanentDelete($id) {
+        try {
+            // dd($id);
+            Property::where('id', $id)->forceDelete();
+            return Redirect()->back()->with('success', 'Property Deleted Successfully');
         } catch (Exception $e) {
             return Redirect()->back()->with('error', $e->getMessage());
         }

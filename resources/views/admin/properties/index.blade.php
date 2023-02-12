@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Properties</h4>
+                    <h4 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Properties</h4>
                 </div>
                 <div>
                     <a href="{{ route('properties.index', ['type' => 'archived']) }}"
@@ -47,13 +47,14 @@
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <a class="btn btn-sm btn-primary"
-                                                href="{{ route('properties.edit', ['property' => $item->id]) }}">Edit
-                                            </a>
-                                            <a class="btn btn-sm btn-primary ml-2"
-                                                href="{{ route('properties.show', ['property' => $item->id]) }}">View
-                                            </a>
                                             @if (request()->type == 'archived')
+                                            <form action="{{ route('properties.delete', ['id' => $item->id]) }}"
+                                                method="POST" id="deletePermanentForm-{{ $item->id }}">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-sm  btn-danger delete ml-2"
+                                                    data-id="{{ $item->id }}">Delete</button>
+                                            </form>
                                                 <form
                                                     action="{{ route('properties.unarchive', ['id' => $item->id]) }}"
                                                     method="POST">
@@ -62,11 +63,17 @@
                                                     <button class="btn btn-sm  btn-danger  ml-2" type="submit">Unarchive</button>
                                                 </form>
                                             @else
+                                                <a class="btn btn-sm btn-primary"
+                                                href="{{ route('properties.edit', ['property' => $item->id]) }}">Edit
+                                                    </a>
+                                                    <a class="btn btn-sm btn-primary ml-2"
+                                                        href="{{ route('properties.show', ['property' => $item->id]) }}">View
+                                                    </a>
                                                 <form action="{{ route('properties.destroy', ['property' => $item->id]) }}"
                                                     method="POST" id="deleteForm-{{ $item->id }}">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-sm  btn-danger delete ml-2"
+                                                    <button class="btn btn-sm  btn-danger archive ml-2"
                                                         data-id="{{ $item->id }}">Archive</button>
                                                 </form>
                                             @endif
@@ -85,6 +92,23 @@
 @section('page_scripts')
 
     <script>
+        $('.archive').click(function(e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id')
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $(`#deleteForm-${id}`).submit();
+                } else if (result.isDenied) {}
+            })
+        })
+
         $('.delete').click(function(e) {
             e.preventDefault();
             let id = $(this).attr('data-id')
@@ -93,11 +117,11 @@
                 icon: 'warning',
                 showDenyButton: false,
                 showCancelButton: true,
-                confirmButtonText: 'yes',
+                confirmButtonText: 'Yes',
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    $(`#deleteForm-${id}`).submit();
+                    $(`#deletePermanentForm-${id}`).submit();
                 } else if (result.isDenied) {}
             })
         })

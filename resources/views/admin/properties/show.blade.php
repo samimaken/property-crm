@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Property</h4>
+                    <h4 class="card-title">View Property</h4>
                 </div>
             </div>
             <div class="card-body">
@@ -20,8 +20,8 @@
                         <div class="col-md-7 col-12 order-md-1 order-2">
                             <p class="m-0"><strong>{{$item->name}}</strong></p>
                             <div class="d-flex mt-2" style="column-gap: 1rem">
-                                <span><i class="fa-regular fa-calendar-days"></i> {{$item->pma_contract_start_date}}</span>
-                                <span><i class="fa-regular fa-calendar-days"></i> {{$item->pma_contract_end_date}}</span>
+                                <span><i class="fa-regular fa-calendar-days"></i> {{$item->start_date_format}}</span>
+                                <span><i class="fa-regular fa-calendar-days"></i> {{$item->end_date_format}}</span>
                             </div>
                             <div class="mt-2 d-flex flex-wrap" style="column-gap: 2rem">
                                 <span><strong>AED Value: </strong> {{$item->aed_value}}</span>
