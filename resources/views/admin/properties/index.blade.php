@@ -9,14 +9,14 @@
 @section('content')
     <div class="col-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <div class="header-title">
+            <div class="card-header d-flex justify-content-between flex-wrap">
+                <div class="header-title mb-2">
                     <h4 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Properties</h4>
                 </div>
                 <div>
                     <a href="{{ route('properties.index', ['type' => 'archived']) }}"
-                        class="btn btn-danger btn-sm">Archived ({{$archived}})</a>
-                    <a href="{{ route('properties.create') }}" class="btn btn-primary btn-sm">Create Property</a>
+                        class="btn btn-danger btn-sm mb-2">Archived ({{$archived}})</a>
+                    <a href="{{ route('properties.create') }}" class="btn btn-primary btn-sm mb-2">Create Property</a>
                     </a>
                 </div>
             </div>
