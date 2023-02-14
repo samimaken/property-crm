@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PropertyController;
+use App\Http\Controllers\admin\PropertyUnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,11 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('properties', PropertyController::class);
         Route::post('properties/unarchive/{id}', [PropertyController::class, 'restore'])->name('properties.unarchive');
         Route::delete('properties/permanent/delete/{id}', [PropertyController::class, 'permanentDelete'])->name('properties.delete');
+        //units
+        Route::group(['prefix' => 'properties/{property}'], function($project_id){
+            Route::resource('units',PropertyUnitController::class);
+            Route::post('units/unarchive/{id}', [PropertyUnitController::class, 'restore'])->name('units.unarchive');
+            Route::delete('units/permanent/delete/{id}', [PropertyUnitController::class, 'permanentDelete'])->name('units.delete');
+        });
     });
 });

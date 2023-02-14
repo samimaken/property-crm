@@ -25,4 +25,8 @@ class Property extends Model
     {
         return Carbon::parse($this->attributes['pma_contract_end_date'])->format('d/m/Y');
     }
+
+    public function units() {
+        return $this->hasMany(PropertyUnit::class, 'property_id');
+    }
 }

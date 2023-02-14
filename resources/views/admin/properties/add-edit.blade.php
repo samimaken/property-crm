@@ -74,32 +74,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12 mb-2">
-                                    <div class="form-group">
-                                        <label for="private_units">Private Units</label>
-                                            <select class="form-control mb-3" name ="private_units">
-                                               <option value="1" {{$item->private_units == 1 ? 'selected': ''}}>One</option>
-                                               <option value="2" {{$item->private_units == 2 ? 'selected': ''}}>Two</option>
-                                               <option value="3" {{$item->private_units == 3 ? 'selected': ''}}>Three</option>
-                                            </select>
-                                        @error('private_units')
-                                            <span class="error text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-2">
-                                    <div class="form-group">
-                                        <label for="coworking_spaces">Coworking Spaces</label>
-                                            <select class="form-control mb-3" name ="coworking_spaces">
-                                               <option value="1" {{$item->coworking_spaces == 1 ? 'selected': ''}}>One</option>
-                                               <option value="2" {{$item->coworking_spaces == 2 ? 'selected': ''}}>Two</option>
-                                               <option value="3" {{$item->coworking_spaces == 3 ? 'selected': ''}}>Three</option>
-                                            </select>
-                                        @error('coworking_spaces')
-                                            <span class="error text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-5 col-12 mb-3 mt-2 order-md-2 order-1">

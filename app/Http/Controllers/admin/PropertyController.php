@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Property;
+use App\Models\PropertyUnit;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class PropertyController extends Controller
 
     public function show($property) {
         $property = Property::findOrFail($property);
-        return view('admin.properties.show')->with('item', $property);
+        $privateUnits = PropertyUnit::where('property_id', $property->id)->where('type', 'private-unit')->count();
+        $coworkingUnits = PropertyUnit::where('property_id', $property->id)->where('type', 'coworking-space')->count();
+        return view('admin.properties.show')->with('item', $property)->with('privateUnits', $privateUnits)->with('coworkingUnits', $coworkingUnits);
     }
 
     public function create()
@@ -40,8 +43,6 @@ class PropertyController extends Controller
             'pma_contract_end_date' => 'required',
             'aed_value' => 'required',
             'sqft_size' => 'required',
-            'private_units' => 'required',
-            'coworking_spaces' => 'required',
             'meeting_room' => 'required',
             'conference_room' => 'required',
             'fully_furnished' => 'required',
@@ -59,8 +60,6 @@ class PropertyController extends Controller
             $item->pma_contract_end_date =  $request->pma_contract_end_date;
             $item->aed_value =  $request->aed_value;
             $item->sqft_size =  $request->sqft_size;
-            $item->private_units =  $request->private_units;
-            $item->coworking_spaces =  $request->coworking_spaces;
             $item->meeting_room =  $request->meeting_room;
             $item->conference_room =  $request->conference_room;
             $item->fully_furnished =  $request->fully_furnished;
@@ -100,8 +99,6 @@ class PropertyController extends Controller
             'aed_value' => 'required',
             'sqft_size' => 'required',
             'private_units' => 'required',
-            'coworking_spaces' => 'required',
-            'meeting_room' => 'required',
             'conference_room' => 'required',
             'fully_furnished' => 'required',
             'address' => 'required',
@@ -117,8 +114,6 @@ class PropertyController extends Controller
             $item->pma_contract_end_date =  $request->pma_contract_end_date;
             $item->aed_value =  $request->aed_value;
             $item->sqft_size =  $request->sqft_size;
-            $item->private_units =  $request->private_units;
-            $item->coworking_spaces =  $request->coworking_spaces;
             $item->meeting_room =  $request->meeting_room;
             $item->conference_room =  $request->conference_room;
             $item->fully_furnished =  $request->fully_furnished;
@@ -144,6 +139,7 @@ class PropertyController extends Controller
     public function destroy($id)
     {
         try {
+            PropertyUnit::where('property_id', $id)->delete();
             Property::findOrFail($id)->delete();
             return Redirect(route('properties.index'))->with('success', 'Property Archived Successfully');
         } catch (Exception $e) {
@@ -163,7 +159,9 @@ class PropertyController extends Controller
 
     public function permanentDelete($id) {
         try {
-            // dd($id);
+            if(PropertyUnit::where('property_id', $id)->withTrashed()->count() > 0) {
+                return Redirect()->back()->with('error', "This property is assigned with units. You should need to delete all units before you delete property.");
+            }
             Property::where('id', $id)->forceDelete();
             return Redirect()->back()->with('success', 'Property Deleted Successfully');
         } catch (Exception $e) {

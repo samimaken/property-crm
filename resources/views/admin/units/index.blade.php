@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page_title', 'Categories')
+@section('page_title', 'Property Units')
 
 @section('page_styles')
 
@@ -11,12 +11,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between flex-wrap">
                 <div class="header-title mb-2">
-                    <h4 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Properties</h4>
+                    <h4 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Units – {{$propertyData->name}}</h4>
                 </div>
                 <div>
-                    <a href="{{ route('properties.index', ['type' => 'archived']) }}"
+                    <a href="{{ route('units.index', ['property' => request()->property]) }}"
+                        class="btn btn-success btn-sm mb-2">Active ({{$active}})</a>
+                    <a href="{{ route('units.index', ['property' => request()->property, 'type' => 'archived']) }}"
                         class="btn btn-danger btn-sm mb-2">Archived ({{$archived}})</a>
-                    <a href="{{ route('properties.create') }}" class="btn btn-primary btn-sm mb-2">Create Property</a>
+                    <a href="{{ route('units.create', ['property' => request()->property]) }}" class="btn btn-primary btn-sm mb-2">Create Unit</a>
                     </a>
                 </div>
             </div>
@@ -25,12 +27,12 @@
                     <table id="datatable-1" class="table data-table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Location</th>
-                                <th>PMA Contract Start Date</th>
-                                <th>PMA Contract End Date</th>
-                                <th>AED Value</th>
+                                <th>Unit ID</th>
                                 <th>Sqft Size</th>
+                                <th>Desks Allocated</th>
+                                <th>Furnished</th>
+                                <th>Unit Price Monthly AED</th>
+                                <th>Deposit Amount AED</th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
@@ -38,17 +40,17 @@
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->location }}</td>
-                                    <td>{{ $item->start_date_format }}</td>
-                                    <td>{{ $item->end_date_format }}</td>
-                                    <td>{{ $item->aed_value }}</td>
+                                    <td>{{ $item->unit_id }}</td>
                                     <td>{{ $item->sqft_size }}</td>
+                                    <td>{{ $item->desks_allocated }}</td>
+                                    <td>{!! $item->furnished == 1 ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>' !!}</td>
+                                    <td>{{ $item->unit_price_monthly }}</td>
+                                    <td>{{ $item->deposit_amount }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
                                             @if (request()->type == 'archived')
-                                            <form action="{{ route('properties.delete', ['id' => $item->id]) }}"
+                                            <form action="{{ route('units.delete', ['property' => request()->property, 'id' => $item->id]) }}"
                                                 method="POST" id="deletePermanentForm-{{ $item->id }}">
                                                 @method('DELETE')
                                                 @csrf
@@ -56,25 +58,24 @@
                                                     data-id="{{ $item->id }}">Delete</button>
                                             </form>
                                                 <form
-                                                    action="{{ route('properties.unarchive', ['id' => $item->id]) }}"
+                                                    action="{{ route('units.unarchive', ['property' => request()->property, 'id' => $item->id]) }}"
                                                     method="POST">
 
                                                     @csrf
                                                     <button class="btn btn-sm  btn-danger  ml-2" type="submit">Unarchive</button>
                                                 </form>
                                             @else
-                                                <a class="btn btn-sm btn-primary text-nowrap"
-                                                href="{{ route('properties.edit', ['property' => $item->id]) }}">Edit
+                                                <a class="btn btn-sm btn-primary"
+                                                href="{{ route('units.edit', ['property' => request()->property, 'unit' => $item->id]) }}">Edit
                                                     </a>
-                                                    <a class="btn btn-sm btn-primary ml-2 text-nowrap"
-                                                        href="{{ route('properties.show', ['property' => $item->id]) }}">View
+                                                    <a class="btn btn-sm btn-primary ml-2"
+                                                        href="{{ route('units.show', ['property' => request()->property, 'unit' => $item->id]) }}">View
                                                     </a>
-                                                    <a class="btn btn-sm btn-primary ml-2 text-nowrap" href="{{route('units.index', ['property' => $item->id])}}">Add Units</a>
-                                                <form action="{{ route('properties.destroy', ['property' => $item->id]) }}"
+                                                <form action="{{ route('units.destroy', ['property' => request()->property, 'unit' => $item->id]) }}"
                                                     method="POST" id="deleteForm-{{ $item->id }}">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-sm  btn-danger archive ml-2 text-nowrap"
+                                                    <button class="btn btn-sm  btn-danger archive ml-2"
                                                         data-id="{{ $item->id }}">Archive</button>
                                                 </form>
                                             @endif

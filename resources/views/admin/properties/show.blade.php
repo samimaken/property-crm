@@ -26,8 +26,8 @@
                             <div class="mt-2 d-flex flex-wrap" style="column-gap: 2rem">
                                 <span><strong>AED Value: </strong> {{$item->aed_value}}</span>
                                 <span><strong>Sqft Size: </strong> {{$item->sqft_size}}</span>
-                                <span><strong>Private Units: </strong> {{$item->private_units}}</span>
-                                <span><strong>Coworking Spaces: </strong> {{$item->coworking_spaces}}</span>
+                                <span><strong>Private Units: </strong> {{$privateUnits}}</span>
+                                <span><strong>Coworking Spaces: </strong> {{$coworkingUnits}}</span>
                             </div>
                             <div class="mt-2">
                                 <p>Meeting Room <span class="badge {{$item->meeting_room == 1 ? 'badge-success' : 'badge-danger'}}">{{$item->meeting_room == 1 ? 'Yes' : 'No'}}</span></p>

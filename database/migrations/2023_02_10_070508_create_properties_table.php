@@ -22,8 +22,6 @@ class CreatePropertiesTable extends Migration
             $table->date('pma_contract_end_date');
             $table->double('aed_value');
             $table->double('sqft_size');
-            $table->double('private_units');
-            $table->double('coworking_spaces');
             $table->boolean('meeting_room')->default(0);
             $table->boolean('conference_room')->default(0);
             $table->boolean('fully_furnished')->default(0);
