@@ -98,7 +98,6 @@ class PropertyController extends Controller
             'pma_contract_end_date' => 'required',
             'aed_value' => 'required',
             'sqft_size' => 'required',
-            'private_units' => 'required',
             'conference_room' => 'required',
             'fully_furnished' => 'required',
             'address' => 'required',
