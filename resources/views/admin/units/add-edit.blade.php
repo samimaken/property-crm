@@ -122,7 +122,7 @@
                         <div class="col-12 mb-2">
                             <p class="m-0">Unit Images</p>
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-3 mb-2">
                             @if ($item->image1 != null)
                                    <img class="img-fluid mb-2" src="{{$item->image1}}"> <br>
                             @endif
@@ -136,7 +136,7 @@
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-3 mb-2">
                             @if ($item->image2 != null)
                               <img class="img-fluid mb-2" src="{{$item->image2}}"> <br>
                             @endif
@@ -150,7 +150,7 @@
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-3 mb-2">
                             @if ($item->image3 != null)
                                    <img class="img-fluid mb-2" src="{{$item->image3}}"> <br>
                             @endif
@@ -164,7 +164,7 @@
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-12 col-md-4 mb-2">
+                        <div class="col-12 col-md-3 mb-2">
                             @if ($item->image4 != null)
                                    <img class="img-fluid mb-2" src="{{$item->image4}}"> <br>
                             @endif
