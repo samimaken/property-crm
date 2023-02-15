@@ -69,7 +69,7 @@
                                                     <a class="btn btn-sm btn-primary ml-2 text-nowrap"
                                                         href="{{ route('properties.show', ['property' => $item->id]) }}">View
                                                     </a>
-                                                    <a class="btn btn-sm btn-primary ml-2 text-nowrap" href="{{route('units.index', ['property' => $item->id])}}">Add Units</a>
+                                                    <a class="btn btn-sm btn-success bg-success-darker ml-2 text-nowrap" href="{{route('units.index', ['property' => $item->id])}}">Add Units</a>
                                                 <form action="{{ route('properties.destroy', ['property' => $item->id]) }}"
                                                     method="POST" id="deleteForm-{{ $item->id }}">
                                                     @method('DELETE')

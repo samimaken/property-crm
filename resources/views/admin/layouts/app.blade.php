@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
 
     <link rel="stylesheet" href="{{ asset('css/backend-plugin.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/backend.css?v=1.0.0') }}">
     <link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />

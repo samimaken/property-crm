@@ -29,10 +29,10 @@
                             <tr>
                                 <th>Unit ID</th>
                                 <th>Sqft Size</th>
+                                <th>Type</th>
                                 <th>Desks Allocated</th>
                                 <th>Furnished</th>
                                 <th>Unit Price Monthly AED</th>
-                                <th>Deposit Amount AED</th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
@@ -42,10 +42,10 @@
                                 <tr>
                                     <td>{{ $item->unit_id }}</td>
                                     <td>{{ $item->sqft_size }}</td>
+                                    <td>{{ $item->type == 'private-unit' ? 'Private Unit' : 'Co-Working Space' }}</td>
                                     <td>{{ $item->desks_allocated }}</td>
                                     <td>{!! $item->furnished == 1 ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>' !!}</td>
                                     <td>{{ $item->unit_price_monthly }}</td>
-                                    <td>{{ $item->deposit_amount }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
