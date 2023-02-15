@@ -69,7 +69,6 @@
                                                     <a class="btn btn-sm btn-primary ml-2 text-nowrap"
                                                         href="{{ route('properties.show', ['property' => $item->id]) }}">View
                                                     </a>
-                                                    <a class="btn btn-sm btn-success bg-success-darker ml-2 text-nowrap" href="{{route('units.index', ['property' => $item->id])}}">Add Units</a>
                                                 <form action="{{ route('properties.destroy', ['property' => $item->id]) }}"
                                                     method="POST" id="deleteForm-{{ $item->id }}">
                                                     @method('DELETE')
@@ -77,6 +76,11 @@
                                                     <button class="btn btn-sm  btn-danger archive ml-2 text-nowrap"
                                                         data-id="{{ $item->id }}">Archive</button>
                                                 </form>
+                                            @endif
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            @if (request()->type != 'archived')
+                                            <a class="btn btn-sm btn-success bg-success-darker ml-2 text-nowrap" href="{{route('units.index', ['property' => $item->id])}}">Add Units</a>
                                             @endif
                                         </div>
                                     </td>
