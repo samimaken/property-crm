@@ -45,7 +45,7 @@ class PropertyUnitController extends Controller
     {
         $request->validate([
             'type' => 'required',
-            'unit_id' => 'required',
+            'unit_id' => 'required|unique:property_units,unit_id',
             'tawtheeq_id' => 'required',
             'sqft_size' => 'required',
             'desks_allocated' => 'required',
@@ -124,7 +124,7 @@ class PropertyUnitController extends Controller
         $item = PropertyUnit::findOrFail($id);
         $request->validate([
             'type' => 'required',
-            'unit_id' => 'required',
+            'unit_id' => 'required|unique:property_units,unit_id,'.$id,
             'tawtheeq_id' => 'required',
             'sqft_size' => 'required',
             'desks_allocated' => 'required',

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PropertyController;
 use App\Http\Controllers\admin\PropertyUnitController;
-
+use App\Http\Controllers\admin\ClientsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,5 +49,11 @@ Route::group(['prefix'=>'admin'],function(){
             Route::post('units/unarchive/{id}', [PropertyUnitController::class, 'restore'])->name('units.unarchive');
             Route::delete('units/permanent/delete/{id}', [PropertyUnitController::class, 'permanentDelete'])->name('units.delete');
         });
+        //clients
+        Route::resource('clients', ClientsController::class);
+        Route::get('clients/{client}/add-document', [ClientsController::class, 'docCreate'])->name('client.doc.create');
+        Route::post('clients/{client}/add-document', [ClientsController::class, 'docStore'])->name('client.doc.store');
+        Route::delete('clients/{client}/add-document/{id}', [ClientsController::class, 'docDestroy'])->name('client.doc.destroy');
+
     });
 });

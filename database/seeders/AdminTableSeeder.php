@@ -24,11 +24,11 @@ class AdminTableSeeder extends Seeder
 
         Admin::create($data);
 
-        $user = new User();
-        $user->name = "client";
-        $user->email = "client@gmail.com";
-        $user->password = Hash::make('password');
-        $user->email_verified_at =now();
-        $user->save();
+        // $user = new User();
+        // $user->name = "client";
+        // $user->email = "client@gmail.com";
+        // $user->password = Hash::make('password');
+        // $user->email_verified_at =now();
+        // $user->save();
     }
 }
