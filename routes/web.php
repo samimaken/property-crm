@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\PropertyController;
 use App\Http\Controllers\admin\PropertyUnitController;
 use App\Http\Controllers\admin\ClientsController;
+use App\Http\Controllers\admin\UsersManagmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,6 +55,8 @@ Route::group(['prefix'=>'admin'],function(){
         Route::get('clients/{client}/add-document', [ClientsController::class, 'docCreate'])->name('client.doc.create');
         Route::post('clients/{client}/add-document', [ClientsController::class, 'docStore'])->name('client.doc.store');
         Route::delete('clients/{client}/add-document/{id}', [ClientsController::class, 'docDestroy'])->name('client.doc.destroy');
+        //users
+        Route::resource('users', UsersManagmentController::class);
 
     });
 });

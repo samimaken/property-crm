@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\User;
+use Spatie\Permission\Models\Permission;
 
 class AdminTableSeeder extends Seeder
 {
@@ -17,18 +18,29 @@ class AdminTableSeeder extends Seeder
 
     public function run()
     {
-        $data = array('name'=>'admin'
-            ,'email'=>'admin@admin.com'
+        $data = array('name'=>'admin',
+             'user_name' => 'admin',
+             'position' => 'admin',
+             'mobile_number' => "+971 58 580 2467",
+            'email'=>'admin@admin.com'
             ,'email_verified_at'=>now()
             ,'password'=>Hash::make('password'));
 
-        Admin::create($data);
-
-        // $user = new User();
-        // $user->name = "client";
-        // $user->email = "client@gmail.com";
-        // $user->password = Hash::make('password');
-        // $user->email_verified_at =now();
-        // $user->save();
+       $admin =  Admin::create($data);
+       $admin->assignRole('admin');
+       $permissions = Permission::pluck('id');
+       $admin->syncPermissions($permissions);
+        $user = new User();
+        $user->name = "client";
+        $user->email = "client@gmail.com";
+        $user->password = Hash::make('password');
+        $user->email_verified_at =now();
+        $user->company_name = 'qqqqqq';
+        $user->contact_name = 'qqqqqq';
+        $user->mobile_number = 'qqqqqq';
+        $user->whatsapp_number = 'qqqqqq';
+        $user->address = 'qqqqqq';
+        $user->license_number = 'qqqqqq';
+        $user->save();
     }
 }

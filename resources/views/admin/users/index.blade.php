@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page_title', 'Client Management')
+@section('page_title', 'Users Management')
 
 @section('page_styles')
 
@@ -11,11 +11,11 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between flex-wrap">
                 <div class="header-title mb-2">
-                    <h4 class="card-title"> Client Management </h4>
+                    <h4 class="card-title"> Users Management </h4>
                 </div>
                 <div>
-                    @can('write-clients')
-                    <a href="{{ route('clients.create') }}" class="btn btn-primary btn-sm mb-2">Create Client</a>
+                    @can('write-users')
+                    <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm mb-2">Create User</a>
                     </a>
                     @endcan
                 </div>
@@ -27,10 +27,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Email</th>
-                                <th>Company Name</th>
-                                <th>Contact Name</th>
+                                <th>Name</th>
+                                <th>User Name</th>
                                 <th>Mobile Number</th>
-                                <th>WhatsApp Number</th>
+                                <th>Position</th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
@@ -40,31 +40,26 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->company_name }}</td>
-                                    <td>{{ $item->contact_name }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->user_name }}</td>
                                     <td>{{ $item->mobile_number }}</td>
-                                    <td>{{ $item->whatsapp_number }}</td>
+                                    <td>{{ $item->position }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1 justify-content-center">
                                             <a class="btn btn-sm btn-primary"
-                                                href="{{ route('clients.edit', ['client' => $item->id]) }}">Edit
+                                                href="{{ route('users.edit', ['user' => $item->id]) }}">Edit
                                             </a>
                                             <a class="btn btn-sm btn-primary ml-2"
-                                                href="{{ route('clients.show', ['client' => $item->id]) }}">View
+                                                href="{{ route('users.show', ['user' => $item->id]) }}">View
                                             </a>
-                                            <form action="{{ route('clients.destroy', ['client' => $item->id]) }}"
+                                            <form action="{{ route('users.destroy', ['user' => $item->id]) }}"
                                                 method="POST" id="deleteForm-{{ $item->id }}">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-sm  btn-danger delete ml-2"
                                                     data-id="{{ $item->id }}">Delete</button>
                                             </form>
-                                        </div>
-                                        <div class="text-center mt-2">
-                                        <a class="btn btn-sm btn-success  bg-success-darker btn- ml-2"
-                                                href="{{ route('client.doc.create', ['client' => $item->id]) }}">Add Document
-                                            </a>
                                         </div>
                                     </td>
                                 </tr>
