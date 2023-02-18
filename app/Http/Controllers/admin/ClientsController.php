@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ClientCredentials;
 use App\Models\User;
 use App\Models\UserDoc;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ClientsController extends Controller
 {
@@ -66,6 +68,11 @@ class ClientsController extends Controller
             $item->address =  $request->address;
             $item->license_number =  $request->license_number;
             $item->save();
+            $data = [];
+            $data['email'] = $request->email;
+            $data['password'] = $request->password;
+            $data['name'] = $request->name;
+            Mail::to($request->email)->send(new ClientCredentials($data));
             return  Redirect(route('clients.index'))->with('success', 'Client Created Successfully');
         } catch (Exception $e) {
             return  Redirect(route('clients.create'))->with('error', $e->getMessage());
@@ -110,6 +117,7 @@ class ClientsController extends Controller
             $item->address =  $request->address;
             $item->license_number =  $request->license_number;
             $item->save();
+
 
             return  Redirect(route('clients.index'))->with('success', 'Client Updatd Successfully');
         } catch (Exception $e) {
