@@ -18,7 +18,9 @@
                         class="btn btn-success btn-sm mb-2">Active ({{$active}})</a>
                     <a href="{{ route('units.index', ['property' => request()->property, 'type' => 'archived']) }}"
                         class="btn btn-danger btn-sm mb-2">Archived ({{$archived}})</a>
+                    @can('write-units')
                     <a href="{{ route('units.create', ['property' => request()->property]) }}" class="btn btn-primary btn-sm mb-2">Create Unit</a>
+                    @endcan
                     </a>
                 </div>
             </div>
@@ -50,6 +52,7 @@
                                     <td>
                                         <div class="d-flex gap-1">
                                             @if (request()->type == 'archived')
+                                            @can('delete-units')
                                             <form action="{{ route('units.delete', ['property' => request()->property, 'id' => $item->id]) }}"
                                                 method="POST" id="deletePermanentForm-{{ $item->id }}">
                                                 @method('DELETE')
@@ -57,6 +60,8 @@
                                                 <button class="btn btn-sm  btn-danger delete ml-2"
                                                     data-id="{{ $item->id }}">Delete</button>
                                             </form>
+                                            @endcan
+                                            @can('delete-units')
                                                 <form
                                                     action="{{ route('units.unarchive', ['property' => request()->property, 'id' => $item->id]) }}"
                                                     method="POST">
@@ -64,13 +69,19 @@
                                                     @csrf
                                                     <button class="btn btn-sm  btn-danger  ml-2" type="submit">Unarchive</button>
                                                 </form>
+                                                @endcan
                                             @else
+                                            @can('write-units')
                                                 <a class="btn btn-sm btn-primary"
                                                 href="{{ route('units.edit', ['property' => request()->property, 'unit' => $item->id]) }}">Edit
                                                     </a>
+                                                    @endcan
+                                                    @can('read-units')
                                                     <a class="btn btn-sm btn-primary ml-2"
                                                         href="{{ route('units.show', ['property' => request()->property, 'unit' => $item->id]) }}">View
                                                     </a>
+                                                    @endcan
+                                                    @can('delete-units')
                                                 <form action="{{ route('units.destroy', ['property' => request()->property, 'unit' => $item->id]) }}"
                                                     method="POST" id="deleteForm-{{ $item->id }}">
                                                     @method('DELETE')
@@ -78,6 +89,7 @@
                                                     <button class="btn btn-sm  btn-danger archive ml-2"
                                                         data-id="{{ $item->id }}">Archive</button>
                                                 </form>
+                                                @endcan
                                             @endif
                                         </div>
                                     </td>

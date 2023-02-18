@@ -12,6 +12,9 @@ class PropertyController extends Controller
 {
     public function index(Request $request)
     {
+        if(!auth()->guard('admin')->user()->can('read-properties')) {
+            return abort(404);
+        }
         $query = Property::query();
          if($request->type == 'archived') {
             $query->onlyTrashed();
@@ -22,6 +25,9 @@ class PropertyController extends Controller
     }
 
     public function show($property) {
+        if(!auth()->guard('admin')->user()->can('read-properties')) {
+            return abort(404);
+        }
         $property = Property::findOrFail($property);
         $privateUnits = PropertyUnit::where('property_id', $property->id)->where('type', 'private-unit')->count();
         $coworkingUnits = PropertyUnit::where('property_id', $property->id)->where('type', 'coworking-space')->count();
@@ -30,6 +36,9 @@ class PropertyController extends Controller
 
     public function create()
     {
+        if(!auth()->guard('admin')->user()->can('write-properties')) {
+            return abort(404);
+        }
         $property = new Property();
         return view('admin.properties.add-edit')->with('item', $property);
     }
@@ -83,6 +92,9 @@ class PropertyController extends Controller
 
     public function edit($id)
     {
+        if(!auth()->guard('admin')->user()->can('write-properties')) {
+            return abort(404);
+        }
         $property = Property::where('id', $id)->first();
         return view('admin.properties.add-edit')->with('item', $property);
     }
@@ -137,6 +149,9 @@ class PropertyController extends Controller
 
     public function destroy($id)
     {
+        if(!auth()->guard('admin')->user()->can('delete-properties')) {
+            return abort(404);
+        }
         try {
             PropertyUnit::where('property_id', $id)->delete();
             Property::findOrFail($id)->delete();
@@ -147,6 +162,9 @@ class PropertyController extends Controller
     }
 
     public function restore($id) {
+        if(!auth()->guard('admin')->user()->can('delete-properties')) {
+            return abort(404);
+        }
         try {
             // dd($id);
             Property::where('id', $id)->restore();
@@ -157,6 +175,9 @@ class PropertyController extends Controller
     }
 
     public function permanentDelete($id) {
+        if(!auth()->guard('admin')->user()->can('delete-properties')) {
+            return abort(404);
+        }
         try {
             if(PropertyUnit::where('property_id', $id)->withTrashed()->count() > 0) {
                 return Redirect()->back()->with('error', "This property is assigned with units. You should need to delete all units before you delete property.");

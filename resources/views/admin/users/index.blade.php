@@ -47,12 +47,17 @@
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1 justify-content-center">
+                                            @can('write-users')
                                             <a class="btn btn-sm btn-primary"
                                                 href="{{ route('users.edit', ['user' => $item->id]) }}">Edit
                                             </a>
+                                            @endcan
+                                            @can('read-users')
                                             <a class="btn btn-sm btn-primary ml-2"
                                                 href="{{ route('users.show', ['user' => $item->id]) }}">View
                                             </a>
+                                            @endcan
+                                            @can('delete-users')
                                             <form action="{{ route('users.destroy', ['user' => $item->id]) }}"
                                                 method="POST" id="deleteForm-{{ $item->id }}">
                                                 @method('DELETE')
@@ -60,6 +65,7 @@
                                                 <button class="btn btn-sm  btn-danger delete ml-2"
                                                     data-id="{{ $item->id }}">Delete</button>
                                             </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

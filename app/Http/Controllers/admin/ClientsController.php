@@ -7,12 +7,16 @@ use App\Models\User;
 use App\Models\UserDoc;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class ClientsController extends Controller
 {
     public function index(Request $request)
     {
+        if(!auth()->guard('admin')->user()->can('read-clients')) {
+            return abort(404);
+        }
         $query = User::query();
         $data = $query->get();
         return view('admin.clients.index', compact('data'));
@@ -20,12 +24,18 @@ class ClientsController extends Controller
 
     public function show($property)
     {
+        if(!auth()->guard('admin')->user()->can('read-clients')) {
+            return abort(404);
+        }
         $property = User::with('docs')->findOrFail($property);
         return view('admin.clients.show')->with('item', $property);
     }
 
     public function create()
     {
+        if(!auth()->guard('admin')->user()->can('write-clients')) {
+            return abort(404);
+        }
         $property = new User();
         return view('admin.clients.add-edit')->with('item', $property);
     }
@@ -48,6 +58,7 @@ class ClientsController extends Controller
             $item->name =  $request->name;
             $item->email =  $request->email;
             $item->password = Hash::make($request->password);
+            $item->temporary_password = Crypt::encrypt($request->password);
             $item->company_name =  $request->company_name;
             $item->contact_name =  $request->contact_name;
             $item->mobile_number =  $request->mobile_number;
@@ -63,6 +74,9 @@ class ClientsController extends Controller
 
     public function edit($id)
     {
+        if(!auth()->guard('admin')->user()->can('write-clients')) {
+            return abort(404);
+        }
         $property = User::where('id', $id)->first();
         return view('admin.clients.add-edit')->with('item', $property);
     }
@@ -87,6 +101,7 @@ class ClientsController extends Controller
             $item->email =  $request->email;
             if ($request->password) {
                 $item->password = Hash::make($request->password);
+                $item->temporary_password = Crypt::encrypt($request->password);
             }
             $item->company_name =  $request->company_name;
             $item->contact_name =  $request->contact_name;
@@ -104,6 +119,9 @@ class ClientsController extends Controller
 
     public function destroy($id)
     {
+        if(!auth()->guard('admin')->user()->can('delete-clients')) {
+            return abort(404);
+        }
         try {
             User::where('id', $id)->delete();
             return Redirect(route('clients.index'))->with('success', 'Client Deleted Successfully');
@@ -115,6 +133,9 @@ class ClientsController extends Controller
 
     public function docCreate($client)
     {
+        if(!auth()->guard('admin')->user()->can('read-clients')) {
+            return abort(404);
+        }
         $doc = new UserDoc();
         $client = User::where('id', $client)->select('id', 'name')->first();
         return view('admin.clients.add-doc')->with('item', $doc)->with('client', $client);
@@ -149,6 +170,9 @@ class ClientsController extends Controller
 
     public function docDestroy($client, $id)
     {
+        if(!auth()->guard('admin')->user()->can('read-clients')) {
+            return abort(404);
+        }
         try {
             UserDoc::where('id', $id)->delete();
             return Redirect(route('clients.show', ['client' => $client]))->with('success', 'Client Document Deleted Successfully');

@@ -121,7 +121,6 @@
 
                         <div class="col-12 mt-2">
                             <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ route('clients.index') }}">Back</a>
                         </div>
                     </div>
                 </form>

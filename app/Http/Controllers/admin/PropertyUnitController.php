@@ -18,6 +18,9 @@ class PropertyUnitController extends Controller
     }
     public function index(Request $request, $property)
     {
+        if(!auth()->guard('admin')->user()->can('read-units')) {
+            return abort(404);
+        }
         $query = PropertyUnit::query()->where('property_id', $property);
          if($request->type == 'archived') {
             $query->onlyTrashed();
@@ -30,12 +33,18 @@ class PropertyUnitController extends Controller
     }
 
     public function show($property, $unit) {
+        if(!auth()->guard('admin')->user()->can('read-units')) {
+            return abort(404);
+        }
         $propertyUnit = PropertyUnit::with('property:id,name')->where('id', $unit)->first();
         return view('admin.units.show')->with('item', $propertyUnit);
     }
 
     public function create($property)
     {
+        if(!auth()->guard('admin')->user()->can('write-units')) {
+            return abort(404);
+        }
         $propertyUnit = new PropertyUnit();
         $propertyData = Property::where('id', $property)->select('id', 'name')->first();
         return view('admin.units.add-edit')->with('item', $propertyUnit)->with('propertyData', $propertyData);
@@ -113,6 +122,9 @@ class PropertyUnitController extends Controller
 
     public function edit($property, $id)
     {
+        if(!auth()->guard('admin')->user()->can('write-units')) {
+            return abort(404);
+        }
         $propertyUnit = PropertyUnit::where('id', $id)->first();
         $propertyData = Property::where('id', $property)->select('id', 'name')->first();
         return view('admin.units.add-edit')->with('item', $propertyUnit)->with('propertyData', $propertyData);
@@ -192,6 +204,9 @@ class PropertyUnitController extends Controller
 
     public function destroy($property, $id)
     {
+        if(!auth()->guard('admin')->user()->can('delete-units')) {
+            return abort(404);
+        }
         try {
             PropertyUnit::findOrFail($id)->delete();
             return Redirect(route('units.index', ['property' => $property]))->with('success', 'PropertyUnit Archived Successfully');
@@ -201,6 +216,9 @@ class PropertyUnitController extends Controller
     }
 
     public function restore($property, $id) {
+        if(!auth()->guard('admin')->user()->can('delete-units')) {
+            return abort(404);
+        }
         try {
             // dd($id);
             PropertyUnit::where('id', $id)->restore();
@@ -212,6 +230,9 @@ class PropertyUnitController extends Controller
 
     public function permanentDelete($property, $id) {
         try {
+            if(!auth()->guard('admin')->user()->can('delete-units')) {
+                return abort(404);
+            }
             // dd($id);
             PropertyUnit::where('id', $id)->forceDelete();
             return Redirect()->back()->with('success', 'PropertyUnit Deleted Successfully');

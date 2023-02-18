@@ -47,12 +47,17 @@
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1 justify-content-center">
+                                            @can('write-units')
                                             <a class="btn btn-sm btn-primary"
                                                 href="{{ route('clients.edit', ['client' => $item->id]) }}">Edit
                                             </a>
+                                            @endcan
+                                            @can('read-units')
                                             <a class="btn btn-sm btn-primary ml-2"
                                                 href="{{ route('clients.show', ['client' => $item->id]) }}">View
                                             </a>
+                                            @endcan
+                                            @can('delete-units')
                                             <form action="{{ route('clients.destroy', ['client' => $item->id]) }}"
                                                 method="POST" id="deleteForm-{{ $item->id }}">
                                                 @method('DELETE')
@@ -60,11 +65,14 @@
                                                 <button class="btn btn-sm  btn-danger delete ml-2"
                                                     data-id="{{ $item->id }}">Delete</button>
                                             </form>
+                                            @endcan
                                         </div>
                                         <div class="text-center mt-2">
-                                        <a class="btn btn-sm btn-success  bg-success-darker btn- ml-2"
+                                            @can('write-units')
+                                             <a class="btn btn-sm btn-success  bg-success-darker btn- ml-2"
                                                 href="{{ route('client.doc.create', ['client' => $item->id]) }}">Add Document
-                                            </a>
+                                             </a>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserCredentials;
 use App\Models\Admin;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Permission;
 
 class UsersManagmentController extends Controller
 {
     public function index(Request $request)
     {
+        if(!auth()->guard('admin')->user()->can('read-users')) {
+            return abort(404);
+        }
         $query = Admin::whereHas('roles',function($q){
             return $q->where('name', '!=', 'admin');
         });
@@ -22,12 +28,18 @@ class UsersManagmentController extends Controller
 
     public function show($user)
     {
+        if(!auth()->guard('admin')->user()->can('read-users')) {
+            return abort(404);
+        }
         $user = Admin::with('permissions')->findOrFail($user);
         return view('admin.users.show')->with('item', $user);
     }
 
     public function create()
     {
+        if(!auth()->guard('admin')->user()->can('write-users')) {
+            return abort(404);
+        }
         $user = new Admin();
         $permissions = Permission::all();
         return view('admin.users.add-edit')->with('item', $user)->with('permissions', $permissions);
@@ -48,6 +60,7 @@ class UsersManagmentController extends Controller
             $item->name =  $request->name;
             $item->email =  $request->email;
             $item->password = Hash::make($request->password);
+            $item->temporary_password = Crypt::encrypt($request->password);
             $item->user_name =  $request->user_name;
             $item->position =  $request->position;
             $item->mobile_number =  $request->mobile_number;
@@ -56,6 +69,12 @@ class UsersManagmentController extends Controller
             if($request->permissions) {
                 $item->syncPermissions($request->permissions);
             }
+
+            $data = [];
+            $data['email'] = $request->email;
+            $data['password'] = $request->password;
+            $data['name'] = $request->name;
+            Mail::to($request->email)->send(new UserCredentials($data));
             return  Redirect(route('users.index'))->with('success', 'User Created Successfully');
         } catch (Exception $e) {
             return  Redirect(route('users.create'))->with('error', $e->getMessage());
@@ -64,6 +83,9 @@ class UsersManagmentController extends Controller
 
     public function edit($id)
     {
+        if(!auth()->guard('admin')->user()->can('write-users')) {
+            return abort(404);
+        }
         $user = Admin::where('id', $id)->first();
         $user['permission_ids'] = $user->permissions()->pluck('id')->toArray();
         $permissions = Permission::all();
@@ -88,6 +110,7 @@ class UsersManagmentController extends Controller
             $item->email =  $request->email;
             if ($request->password) {
                 $item->password = Hash::make($request->password);
+                $item->temporary_password = Crypt::encrypt($request->password);
             }
             $item->user_name =  $request->user_name;
             $item->position =  $request->position;
@@ -95,16 +118,21 @@ class UsersManagmentController extends Controller
             $item->save();
             if($request->permissions) {
                 $item->syncPermissions($request->permissions);
+            } else {
+                $item->revokePermissionTo($item->permissions()->pluck('name')->toArray());
             }
 
             return  Redirect(route('users.index'))->with('success', 'User Updatd Successfully');
         } catch (Exception $e) {
-            return  Redirect(route('users.edit', ['client' => $id]))->with('error', 'Facing Error!');
+            return  Redirect(route('users.edit', ['user' => $id]))->with('error', $e->getMessage());
         }
     }
 
     public function destroy($id)
     {
+        if(!auth()->guard('admin')->user()->can('delete-users')) {
+            return abort(404);
+        }
         try {
             Admin::where('id', $id)->delete();
             return Redirect(route('users.index'))->with('success', 'User Deleted Successfully');
