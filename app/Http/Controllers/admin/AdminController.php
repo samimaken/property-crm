@@ -19,6 +19,11 @@ class AdminController extends Controller
     		Session::forget('rtl');
     	}
 
-    	return view('admin.index');
+        $user  = auth()->user();
+        $new = $user->visited;
+        $user->visited = 1;
+        $user->save();
+
+    	return view('admin.index')->with('new', $new);
     }
 }

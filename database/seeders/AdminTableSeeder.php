@@ -26,7 +26,9 @@ class AdminTableSeeder extends Seeder
             'email'=>'admin@admin.com'
             ,'email_verified_at'=>now()
             ,'password'=>Hash::make('password'),
+            'visited' => 1,
             'temporary_password'=> Crypt::encrypt('password'));
+
 
        $admin =  Admin::create($data);
        $admin->assignRole('admin');

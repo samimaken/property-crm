@@ -14,10 +14,11 @@
 @endsection
 
 @section('content')
-  <div class="page-content">
-
-   </div>
-
+<div class="col-12">
+    @if ($new == 0)
+    <div class="alert alert-success">You are welcome to our platform</div>
+    @endif
+</div>
 @endsection
 
 @section('pagelevel_plugins')

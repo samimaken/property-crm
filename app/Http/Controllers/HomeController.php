@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user  = auth()->user();
+        $new = $user->visited;
+        $user->visited = 1;
+        $user->save();
+        return view('home')->with('new', $new);
     }
 }

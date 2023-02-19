@@ -23,6 +23,7 @@ class CreateAdminsTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('temporary_password');
+            $table->boolean('visited')->default(0)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
