@@ -96,10 +96,36 @@
                             <p class="m-0">Permissions</p>
                         </div>
                         <div class="col-12">
+                            <div class="row border-bottom mb-2">
+                                <div class="col-md-2 col-12">
+                                    <div class="custom-control custom-checkbox  mb-2 col-2">
+                                        <input type="checkbox"  class="custom-control-input"
+                                            id="read-all" {{$allPermissions['read'] == true ? 'checked' : '' }}>
+                                        <label class="custom-control-label text-capitalize text-nowrap"
+                                            for="read-all">Read All</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <div class="custom-control custom-checkbox  mb-2 col-2">
+                                        <input type="checkbox"  class="custom-control-input"
+                                            id="write-all" {{$allPermissions['write'] == true ? 'checked' : '' }}>
+                                        <label class="custom-control-label text-capitalize text-nowrap"
+                                            for="write-all">Write All</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <div class="custom-control custom-checkbox  mb-2 col-2">
+                                        <input type="checkbox"  class="custom-control-input"
+                                            id="delete-all" {{$allPermissions['delete'] == true ? 'checked' : '' }}>
+                                        <label class="custom-control-label text-capitalize text-nowrap"
+                                            for="delete-all">Delete All</label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row p-2">
                                 @foreach ($permissions as $key => $permission)
                                     <div class="custom-control custom-checkbox  mb-2 col-2">
-                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}" class="custom-control-input"
+                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}" class="custom-control-input {{'check-'.$permission->group}}"
                                             id="customCheck-{{ $key }}"
                                             {{in_array($permission->id, $item['permission_ids'] ?? []) ? 'checked': ''}}>
                                         <label class="custom-control-label text-capitalize"
@@ -120,6 +146,31 @@
 @endsection
 
 @section('page_scripts')
+<script>
+    $('#read-all').on('change', function(){
+        if ($(this).is(':checked')) {
+        $(".check-read").prop("checked", true);
+        } else {
+            $(".check-read").prop("checked", false);
 
+        }
+    })
+    $('#delete-all').on('change', function(){
+        if ($(this).is(':checked')) {
+        $(".check-delete").prop("checked", true);
+        } else {
+            $(".check-delete").prop("checked", false);
+
+        }
+    })
+    $('#write-all').on('change', function(){
+        if ($(this).is(':checked')) {
+        $(".check-write").prop("checked", true);
+        } else {
+            $(".check-write").prop("checked", false);
+
+        }
+    })
+</script>
 
 @endsection

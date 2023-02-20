@@ -42,7 +42,12 @@ class UsersManagmentController extends Controller
         }
         $user = new Admin();
         $permissions = Permission::all();
-        return view('admin.users.add-edit')->with('item', $user)->with('permissions', $permissions);
+        $allPermissions = [
+            'delete' =>  false,
+            'write' =>  false,
+            'read' =>  false,
+        ];
+        return view('admin.users.add-edit')->with('item', $user)->with('permissions', $permissions)->with('allPermissions', $allPermissions);
     }
 
     public function store(Request $request)
@@ -88,9 +93,19 @@ class UsersManagmentController extends Controller
         }
         $user = Admin::where('id', $id)->first();
         $user['permission_ids'] = $user->permissions()->pluck('id')->toArray();
+        $user_deleted = $user->permissions()->where('group', 'delete')->count();
+        $user_read = $user->permissions()->where('group', 'read')->count();
+        $user_write = $user->permissions()->where('group', 'write')->count();
         $permissions = Permission::all();
-        // dd($user->toArray());
-        return view('admin.users.add-edit')->with('item', $user)->with('permissions', $permissions);
+        $delete_count = Permission::where('group', 'delete')->count();
+        $write_count = Permission::where('group', 'write')->count();
+        $read_count = Permission::where('group', 'read')->count();
+        $allPermissions = [
+            'delete' => $user_deleted == $delete_count ? true : false,
+            'write' => $user_write == $write_count ? true : false,
+            'read' => $user_read == $read_count ? true : false,
+        ];
+        return view('admin.users.add-edit')->with('item', $user)->with('permissions', $permissions)->with('allPermissions', $allPermissions);
     }
 
     public function update(Request $request, $id)

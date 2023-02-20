@@ -20,7 +20,7 @@ class PermissionsSeeder extends Seeder
         foreach($modules as $module){
             foreach($types as $type) {
                 $permission_name = $type.'-'.$module;
-                Permission::create(['name' => $permission_name, 'guard_name' => 'admin']);
+                Permission::create(['name' => $permission_name, 'guard_name' => 'admin', 'group' => $type]);
             }
         }
     }
