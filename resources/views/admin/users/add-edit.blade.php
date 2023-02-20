@@ -65,16 +65,6 @@
                         </div>
                         <div class="col-md-4 col-12 mb-2">
                             <div class="form-group">
-                                <label for="name">User Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ isset($item->name) ? $item->name : old('name') }}">
-                                @error('name')
-                                    <span class="error text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12 mb-2">
-                            <div class="form-group">
                                 <label for="position">Position</label>
                                 <input type="text" class="form-control" id="position" name="position"
                                     value="{{ isset($item->position) ? $item->position : old('position') }}">

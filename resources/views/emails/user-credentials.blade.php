@@ -1,8 +1,8 @@
 @component('mail::message')
 
-Welcom {{$data['name']}}
+Welcome to officespacecrm.ae {{$data['name']}}
 
-Your Login Credentials
+User Login Details - officespacecrm.ae
 
 <p><strong>Email</strong>: {{$data['email']}} </p>
 <p><strong>Password</strong>: {{$data['password']}}</p>
@@ -12,5 +12,5 @@ Login
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+officespacecrm team.
 @endcomponent

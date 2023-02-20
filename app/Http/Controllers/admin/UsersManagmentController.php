@@ -49,8 +49,8 @@ class UsersManagmentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'user_name' => 'required|unique:users,name',
-            'email' => 'required|unique:users,email',
+            'user_name' => 'required|unique:admins,user_name',
+            'email' => 'required|unique:admins,email',
             'password' => 'required|confirmed|min:6',
             'position' => 'required',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13|max:15',
@@ -99,8 +99,8 @@ class UsersManagmentController extends Controller
         $item = Admin::findOrFail($id);
         $request->validate([
             'name' => 'required',
-            'user_name' => 'required|unique:users,name,'.$id,
-            'email' => 'required|unique:users,email,'.$id,
+            'user_name' => 'required|unique:admins,user_name,'.$id,
+            'email' => 'required|unique:admins,email,'.$id,
             'password' => 'nullable|confirmed|min:6',
             'position' => 'required',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:13|max:15',
