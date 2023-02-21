@@ -27,26 +27,26 @@
                     <table id="datatable-1" class="table data-table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th>Date Added</th>
                                 <th>Name</th>
                                 <th>Location</th>
                                 <th>PMA Contract Start Date</th>
                                 <th>PMA Contract End Date</th>
                                 <th>AED Value</th>
                                 <th>Sqft Size</th>
-                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->location }}</td>
                                     <td>{{ $item->start_date_format }}</td>
                                     <td>{{ $item->end_date_format }}</td>
                                     <td>{{ $item->aed_value }}</td>
                                     <td>{{ $item->sqft_size }}</td>
-                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1 justify-content-center">
                                             @if (request()->type == 'archived')

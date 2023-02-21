@@ -29,26 +29,26 @@
                     <table id="datatable-1" class="table data-table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th>Date Added</th>
                                 <th>Unit ID</th>
                                 <th>Sqft Size</th>
                                 <th>Type</th>
                                 <th>Desks Allocated</th>
                                 <th>Furnished</th>
                                 <th>Unit Price Monthly AED</th>
-                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->unit_id }}</td>
                                     <td>{{ $item->sqft_size }}</td>
                                     <td>{{ $item->type == 'private-unit' ? 'Private Unit' : 'Co-Working Space' }}</td>
                                     <td>{{ $item->desks_allocated }}</td>
                                     <td>{!! $item->furnished == 1 ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>' !!}</td>
                                     <td>{{ $item->unit_price_monthly }}</td>
-                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
                                             @if (request()->type == 'archived')

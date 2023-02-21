@@ -25,26 +25,26 @@
                     <table id="datatable-1" class="table data-table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th>Date Added</th>
                                 <th>ID</th>
                                 <th>Email</th>
                                 <th>Name</th>
                                 <th>User Name</th>
                                 <th>Mobile Number</th>
                                 <th>Position</th>
-                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->user_name }}</td>
                                     <td>{{ $item->mobile_number }}</td>
                                     <td>{{ $item->position }}</td>
-                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="d-flex gap-1 justify-content-center">
                                             @can('write-users')
