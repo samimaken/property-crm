@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\PropertyController;
 use App\Http\Controllers\admin\PropertyUnitController;
 use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\admin\UsersManagmentController;
+use App\Http\Controllers\admin\QuotationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,6 +58,12 @@ Route::group(['prefix'=>'admin'],function(){
         Route::delete('clients/{client}/add-document/{id}', [ClientsController::class, 'docDestroy'])->name('client.doc.destroy');
         //users
         Route::resource('users', UsersManagmentController::class);
+        //quotations
+        Route::resource('quotations', QuotationController::class);
+        Route::post('quotations/unarchive/{id}', [QuotationController::class, 'restore'])->name('quotations.unarchive');
+        Route::delete('quotations/permanent/delete/{id}', [QuotationController::class, 'permanentDelete'])->name('quotations.delete');
+        //fetch-units
+        Route::post('/fetch-units', [QuotationController::class, 'getUnits']);
 
     });
 });

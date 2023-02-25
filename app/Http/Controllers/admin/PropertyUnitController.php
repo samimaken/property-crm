@@ -12,7 +12,7 @@ class PropertyUnitController extends Controller
 {
     public function __construct()
     {
-         if(Property::find(request()->property) == null) {
+         if(isset(request()->property) && Property::find(request()->property) == null) {
             return abort(404);
          }
     }
