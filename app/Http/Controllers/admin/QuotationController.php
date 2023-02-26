@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuotationMail;
 use App\Models\Property;
 use App\Models\PropertyUnit;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use Exception;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class QuotationController extends Controller
 {
@@ -23,9 +25,16 @@ class QuotationController extends Controller
             $query->onlyTrashed();
          }
         $data = $query->get();
-        $archived = Quotation::onlyTrashed()->count();
-        $active = Quotation::count();
-        return view('admin.quotations.index', compact('data'))->with('archived', $archived)->with('active',  $active);
+
+        $query = Quotation::query()->where('status','rejected');
+         if($request->type == 'rejected_archived') {
+            $query->onlyTrashed();
+         }
+        $rejected = $query->get();
+        $archived = Quotation::where('status', '!=', 'rejected')->onlyTrashed()->count();
+        $archived_rejected = Quotation::where('status', 'rejected')->onlyTrashed()->count();
+        $active = Quotation::where('status', '!=', 'rejected')->count();
+        return view('admin.quotations.index', compact('data'))->with('archived', $archived)->with('active',  $active)->with('rejected', $rejected)->with('archived_rejected', $archived_rejected);
     }
 
     public function show($unit) {
@@ -90,6 +99,13 @@ class QuotationController extends Controller
                 }
                 QuotationItem::where('quotation_id', $item->id)->whereNotIn('id', $itemIds)->forceDelete();
             }
+            $data = [
+                'client_name' => $request->client_name,
+                'number' => $item->quotation_number,
+                'token' => Crypt::encrypt($request->client_email),
+                'days' => $request->quotation_validity
+            ];
+            Mail::to($request->client_email)->send(new QuotationMail($data));
             return response()->json(['data' => 'Quotation Created Successfully'], 200);
         } catch (Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 422);
@@ -153,6 +169,13 @@ class QuotationController extends Controller
                 }
                 QuotationItem::where('quotation_id', $item->id)->whereNotIn('id', $itemIds)->forceDelete();
             }
+            $data = [
+                'client_name' => $request->client_name,
+                'number' => $item->quotation_number,
+                'token' => Crypt::encrypt($request->client_email),
+                'days' => $request->quotation_validity
+            ];
+            Mail::to($request->client_email)->send(new QuotationMail($data));
             return response()->json(['data' => 'Quotation Updated Successfully'], 200);
 
         } catch (Exception $e) {

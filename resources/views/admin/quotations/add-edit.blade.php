@@ -343,6 +343,8 @@
             });
 
             $(document).on('click', '#submit', function() {
+                $('#submit').html('Please Wait .....');
+                $('#submit').prop("disabled", true);
                 let data = $('form').serialize()
                 $('.error').html('')
                 $.ajax({
@@ -351,6 +353,8 @@
                     data: data,
                     dataType: 'json',
                     success: function(result) {
+                        $('#submit').html('Submit')
+                        $('#submit').removeAttr("disabled");
                         Swal.fire({
                             title: "Good job!",
                             text: `${result.data}`,
@@ -361,6 +365,8 @@
                         });
                     },
                     error: function(reject) {
+                        $('#submit').html('Submit')
+                        $('#submit').removeAttr("disabled");
                         if (reject.status === 422) {
                             console.log(reject)
                             var errors = $.parseJSON(reject.responseText);

@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\PropertyUnitController;
 use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\admin\UsersManagmentController;
 use App\Http\Controllers\admin\QuotationController;
+use App\Http\Controllers\QuotationController as WebQuotationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,8 @@ Route::get('/', function () {
 Auth::routes(['register' => false, 'reset']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('quotation/{number}', [WebQuotationController::class, 'show'])->name('web.quotation');
+Route::post('quotation/reject/{number}', [WebQuotationController::class, 'rejectQuote'])->name('web.quotation.reject');
 
 Route::group(['prefix'=>'admin'],function(){
     Route::group(['middleware'=>'admin.guest'],function(){
