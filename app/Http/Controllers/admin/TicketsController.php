@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Tickets\AdminCloseTicket;
+use App\Mail\Tickets\ClientCloseTicket;
+use App\Models\Admin;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TicketsController extends Controller
 {
@@ -15,7 +20,7 @@ class TicketsController extends Controller
     }
 
     public function show($ticket) {
-        $ticket = Ticket::with(['user:id,name', 'admin:id,name'])->first();
+        $ticket = Ticket::where('id', $ticket)->with(['user:id,name', 'admin:id,name'])->first();
         return view('admin.tickets.show')->with('item', $ticket);
     }
 
@@ -28,6 +33,19 @@ class TicketsController extends Controller
         $ticket->reply = $request->reply;
         $ticket->admin_id = auth()->guard('admin')->id();
         $ticket->status = 'closed';
+        $data = [
+            'ticket_number' => $ticket->ticket_number,
+            'title' => $ticket->title,
+            'id' => $ticket->id,
+            'description' => $ticket->description,
+            'reply' => $ticket->reply,
+            'client_name' => auth()->user()->name,
+            'admin_name' => Admin::where('id', $ticket->admin_id)->pluck('name')->first()
+        ];
+        $user = User::where('id', $ticket->user_id)->pluck('email')->first();
+        $admin = Admin::first()->pluck('email');
+        Mail::to($user)->send(new ClientCloseTicket($data));
+        Mail::to($admin)->send(new AdminCloseTicket($data));
         if($ticket->save()) {
             return  Redirect()->back()->with('success', 'Ticket Closed Successfully');
         } else {

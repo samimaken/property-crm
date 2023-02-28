@@ -42,7 +42,7 @@
     <!-- Wrapper Start -->
     <div class="wrapper">
         <div class="text-center mt-3">
-            <img src="{{asset('images/logo-dark.png')}}" width="100px">
+            <img src="{{asset('images/logo.webp')}}" class="rounded" width="200px">
         </div>
         <div class="container-md mt-2">
             <div class="container-fluid">

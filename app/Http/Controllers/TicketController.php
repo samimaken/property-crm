@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Tickets\ClientOpenTicket;
+use App\Mail\Tickets\ClientTicket;
+use App\Models\Admin;
 use App\Models\Ticket;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
@@ -36,7 +40,7 @@ class TicketController extends Controller
             'description' => 'required',
             'image' => 'nullable|mimes:png,jpg,png',
         ]);
-        try {
+
             $item = new Ticket();
             $item->title =  $request->title;
             $item->description =  $request->description;
@@ -51,10 +55,21 @@ class TicketController extends Controller
                 $item->image = $file;
             }
             $item->save();
+            $data = [
+                'ticket_number' => $item->ticket_number,
+                'title' => $item->title,
+                'id' => $item->id,
+                'client_name' => auth()->user()->name
+            ];
+            $admins = Admin::whereHas('permissions', function($q) {
+                     return $q->where('name', 'read-tickets');
+            })->get()->pluck('email')->toArray();
+            Mail::to(auth()->user()->email)->send(new ClientTicket($data));
+            foreach($admins as $admin) {
+            Mail::to($admin)->send(new ClientOpenTicket($data));
+            }
             return  Redirect(route('client-tickets.index'))->with('success', 'Ticket Submitted Successfully');
-        } catch (Exception $e) {
-            return  Redirect(route('client-tickets.create'))->with('error', $e->getMessage());
-        }
+
     }
 
 
