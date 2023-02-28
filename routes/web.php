@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\admin\UsersManagmentController;
 use App\Http\Controllers\admin\QuotationController;
 use App\Http\Controllers\QuotationController as WebQuotationController;
+use App\Http\Controllers\TicketController as WebTicketsController;
+use App\Http\Controllers\admin\TicketsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +29,9 @@ Auth::routes(['register' => false, 'reset']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('quotation/{number}', [WebQuotationController::class, 'show'])->name('web.quotation');
 Route::post('quotation/reject/{number}', [WebQuotationController::class, 'rejectQuote'])->name('web.quotation.reject');
+Route::group(['middleware' => 'auth'], function() {
+      Route::resource('client-tickets', WebTicketsController::class)->except('edit','update','destroy');
+});
 
 Route::group(['prefix'=>'admin'],function(){
     Route::group(['middleware'=>'admin.guest'],function(){
@@ -67,6 +72,8 @@ Route::group(['prefix'=>'admin'],function(){
         Route::delete('quotations/permanent/delete/{id}', [QuotationController::class, 'permanentDelete'])->name('quotations.delete');
         //fetch-units
         Route::post('/fetch-units', [QuotationController::class, 'getUnits']);
+        //tickets
+        Route::resource('tickets', TicketsController::class)->except('create', 'edit', 'store');
 
     });
 });

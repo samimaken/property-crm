@@ -28,7 +28,7 @@
         <div class="content-page">
             <div class="container-fluid">
                 <div class="row">
-                  @yield('contet')
+                  @yield('content')
                 </div>
                 <!-- Page end  -->
             </div>
