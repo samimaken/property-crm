@@ -77,6 +77,33 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('admin.include.sweetalert')
     @yield('page_scripts')
+    <script>
+        function sendMarkRequest(id = null) {
+            return $.ajax("{{ route('admin.markNotification') }}", {
+                method: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id
+                }
+            });
+        }
+    $(function() {
+        $('.mark-as-read').click(function() {
+            let request = sendMarkRequest($(this).data('id'));
+            request.done(() => {
+                $(this).closest('.admin-notification').remove();
+            });
+        });
+        $('#mark-all').click(function() {
+            let request = sendMarkRequest();
+            request.done(() => {
+                $('.admin-notifications').remove();
+                $('.admin-notification-badge').remove();
+                $(this).remove();
+            })
+        });
+    });
+</script>
 </body>
 
 </html>

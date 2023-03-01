@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Listeners\SendTicketNotification;
 use App\Mail\Tickets\AdminCloseTicket;
 use App\Mail\Tickets\ClientCloseTicket;
 use App\Models\Admin;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\TicketNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class TicketsController extends Controller
 {
@@ -42,9 +45,13 @@ class TicketsController extends Controller
             'client_name' => auth()->user()->name,
             'admin_name' => Admin::where('id', $ticket->admin_id)->pluck('name')->first()
         ];
-        $user = User::where('id', $ticket->user_id)->pluck('email')->first();
+        $event = [
+            'message' => $ticket->ticket_number." Ticket Status Updated",
+        ];
+        $user = User::where('id', $ticket->user_id)->first();
+        Notification::send($user, new TicketNotification($event));
         $admin = Admin::first()->pluck('email');
-        Mail::to($user)->send(new ClientCloseTicket($data));
+        Mail::to($user->email)->send(new ClientCloseTicket($data));
         Mail::to($admin)->send(new AdminCloseTicket($data));
         if($ticket->save()) {
             return  Redirect()->back()->with('success', 'Ticket Closed Successfully');

@@ -31,6 +31,7 @@ Route::get('quotation/{number}', [WebQuotationController::class, 'show'])->name(
 Route::post('quotation/reject/{number}', [WebQuotationController::class, 'rejectQuote'])->name('web.quotation.reject');
 Route::group(['middleware' => 'auth'], function() {
       Route::resource('client-tickets', WebTicketsController::class)->except('edit','update','destroy');
+      Route::post('/mark-as-read', [App\Http\Controllers\HomeController::class, 'markNotification'])->name('markNotification');
 });
 
 Route::group(['prefix'=>'admin'],function(){
@@ -74,6 +75,8 @@ Route::group(['prefix'=>'admin'],function(){
         Route::post('/fetch-units', [QuotationController::class, 'getUnits']);
         //tickets
         Route::resource('tickets', TicketsController::class)->except('create', 'edit', 'store');
+        //notification read
+        Route::post('/mark-as-read', [App\Http\Controllers\admin\AdminController::class, 'markNotification'])->name('admin.markNotification');
 
     });
 });

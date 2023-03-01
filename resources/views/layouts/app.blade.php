@@ -28,7 +28,7 @@
         <div class="content-page">
             <div class="container-fluid">
                 <div class="row">
-                  @yield('content')
+                    @yield('content')
                 </div>
                 <!-- Page end  -->
             </div>
@@ -70,6 +70,33 @@
 
     <!-- app JavaScript -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+            function sendMarkRequest(id = null) {
+                return $.ajax("{{ route('markNotification') }}", {
+                    method: 'POST',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id
+                    }
+                });
+            }
+        $(function() {
+            $('.mark-as-read').click(function() {
+                let request = sendMarkRequest($(this).data('id'));
+                request.done(() => {
+                    $(this).closest('.notification').remove();
+                });
+            });
+            $('#mark-all').click(function() {
+                let request = sendMarkRequest();
+                request.done(() => {
+                    $('.notifications').remove();
+                    $('.notification-badge').remove();
+                    $(this).remove();
+                })
+            });
+        });
+    </script>
 </body>
 
 </html>

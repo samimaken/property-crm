@@ -6,9 +6,11 @@ use App\Mail\Tickets\ClientOpenTicket;
 use App\Mail\Tickets\ClientTicket;
 use App\Models\Admin;
 use App\Models\Ticket;
+use App\Notifications\TicketNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
 {
@@ -61,12 +63,16 @@ class TicketController extends Controller
                 'id' => $item->id,
                 'client_name' => auth()->user()->name
             ];
+            $event = [
+                'message' => auth()->user()->name.' Submitted Ticket '.$item->ticket_number,
+            ];
             $admins = Admin::whereHas('permissions', function($q) {
-                     return $q->where('name', 'read-tickets');
-            })->get()->pluck('email')->toArray();
+                return $q->where('name', 'read-tickets');
+            })->get();
+            Notification::send($admins, new TicketNotification($event));
             Mail::to(auth()->user()->email)->send(new ClientTicket($data));
             foreach($admins as $admin) {
-            Mail::to($admin)->send(new ClientOpenTicket($data));
+            Mail::to($admin->email)->send(new ClientOpenTicket($data));
             }
             return  Redirect(route('client-tickets.index'))->with('success', 'Ticket Submitted Successfully');
 
