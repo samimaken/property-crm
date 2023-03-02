@@ -117,7 +117,13 @@ class ClientsController extends Controller
             $item->address =  $request->address;
             $item->license_number =  $request->license_number;
             $item->save();
-
+            if ($request->password) {
+                $data = [];
+                $data['email'] = $request->email;
+                $data['password'] = $request->password;
+                $data['name'] = $request->name;
+                Mail::to($request->email)->send(new ClientCredentials($data));
+            }
 
             return  Redirect(route('clients.index'))->with('success', 'Client Updatd Successfully');
         } catch (Exception $e) {

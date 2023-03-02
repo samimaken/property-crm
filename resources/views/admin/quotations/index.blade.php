@@ -19,7 +19,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between flex-wrap">
                 <div class="header-title mb-2">
-                    <h4 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Quotations </h4>
+                    <h5 class="card-title">{{request()->type == 'archived'  ? 'Archived' : ''}} Quotations </h5>
                 </div>
                 <div>
                     <a href="{{ route('quotations.index') }}"
@@ -106,7 +106,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between flex-wrap">
                 <div class="header-title mb-2">
-                    <h4 class="card-title">{{request()->type == 'rejected_archived'  ? 'Archived' : ''}} Quotations </h4>
+                    <h5 class="card-title">{{request()->type == 'rejected_archived'  ? 'Archived' : ''}} Quotations </h5>
                 </div>
                 <div>
                     <a href="{{ route('quotations.index', ['type' => 'rejected_archived']) }}"
@@ -206,11 +206,18 @@
             e.preventDefault();
             let id = $(this).attr('data-id')
             Swal.fire({
-                title: 'Are you sure?',
+                title: 'Are you sure to delete this quotation ?',
+                text: "Please confirm by typing “DELETE” on the box below",
+                input: "text",
                 icon: 'warning',
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
+                inputValidator: (value) => {
+                    if (value != 'DELETE') {
+                        return 'You need to write DELETE'
+                    }
+                }
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {

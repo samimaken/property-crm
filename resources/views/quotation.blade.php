@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
     <title>Datum | CRM Admin Dashboard Template</title>
 
     <!-- Favicon -->
@@ -50,7 +50,7 @@
                    <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="m-0 mb-2 text-center">officespacecrm - Quotation</h4>
+                            <h4 class="m-0 mb-2 text-center">Officespacecrm - Quotation</h4>
                             <hr>
                             <div class="row">
                                 <div class="col-md-8 col-12 order-md-1 order-2">
@@ -221,6 +221,14 @@
     })
     </script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @include('admin.include.sweetalert')
+        @if (Session::has('success'))
+        <script>
+            Swal.fire({
+                text: "{!! Session::get('success') !!}",
+                icon: "success",
+                button: "Ok",
+                });
+        </script>
+        @endif
 </body>
 </html>

@@ -3,7 +3,12 @@
 @section('page_title', 'Client Ticket')
 
 @section('page_styles')
-
+<style>
+    .preserveLines {
+    white-space: pre-wrap;
+    line-height: inherit !important;
+}
+</style>
 @endsection
 
 @section('content')
@@ -33,7 +38,7 @@
                         <div class="col-12 mb-2">
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" rows="5" name="description">{{ isset($item->description) ? $item->description : old('description') }}</textarea>
+                                <textarea class="form-control preserveLines" rows="5" name="description">{{ isset($item->description) ? $item->description : old('description') }}</textarea>
                                 @error('description')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @enderror

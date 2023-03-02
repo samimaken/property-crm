@@ -3,7 +3,12 @@
 @section('page_title', 'Client Tickets')
 
 @section('page_styles')
-
+@section('page_styles')
+<style>
+    .preserveLines {
+    white-space: pre-wrap;
+}
+</style>
 @endsection
 
 @section('content')
@@ -21,7 +26,7 @@
                         {{$item->status}}
                     </span>
                   </div>
-                  <p>{{$item->description}}</p>
+                  <div class="preserveLines">{!! $item->description !!}</div>
                   @if ($item->image != null)
                   <img class="img-fluid" src="{{$item->image}}">
                   @endif
@@ -40,9 +45,7 @@
                       {{$item->updated_at}}
                       </span>
                   </div>
-                  <p class="mt-2 mb-2">
-                    {{$item->reply}}
-                  </p>
+                  <p class="mt-2 mb-2 preserveLines">{{$item->reply}}</p>
             </div>
         </div>
         @endif

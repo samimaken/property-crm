@@ -136,6 +136,13 @@ class UsersManagmentController extends Controller
             } else {
                 $item->revokePermissionTo($item->permissions()->pluck('name')->toArray());
             }
+            if ($request->password) {
+                $data = [];
+                $data['email'] = $request->email;
+                $data['password'] = $request->password;
+                $data['name'] = $request->name;
+                Mail::to($request->email)->send(new UserCredentials($data));
+            }
 
             return  Redirect(route('users.index'))->with('success', 'User Updatd Successfully');
         } catch (Exception $e) {

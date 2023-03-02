@@ -84,7 +84,7 @@ class PropertyUnitController extends Controller
             if($request->file('image1')){
                 $file = $request->file('image1');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $filename = time().'image1' . '.' . $extension;
                 $path = $file->move('units/mages', $filename);
                 $file = '/units/mages/' . $filename;
                 $item->image1 = $file;
@@ -92,7 +92,7 @@ class PropertyUnitController extends Controller
             if($request->file('image2')){
                 $file = $request->file('image2');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $filename = time().'image2' . '.' . $extension;
                 $path = $file->move('units/mages', $filename);
                 $file = '/units/mages/' . $filename;
                 $item->image2 = $file;
@@ -100,7 +100,7 @@ class PropertyUnitController extends Controller
             if($request->file('image3')){
                 $file = $request->file('image3');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $filename = time().'image3' . '.' . $extension;
                 $path = $file->move('units/mages', $filename);
                 $file = '/units/mages/' . $filename;
                 $item->image3 = $file;
@@ -108,7 +108,7 @@ class PropertyUnitController extends Controller
             if($request->file('image4')){
                 $file = $request->file('image4');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $filename = time().'image4' . '.' . $extension;
                 $path = $file->move('units/mages', $filename);
                 $file = '/units/mages/' . $filename;
                 $item->image4 = $file;

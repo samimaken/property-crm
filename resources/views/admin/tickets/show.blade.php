@@ -3,7 +3,12 @@
 @section('page_title', 'Client Tickets')
 
 @section('page_styles')
-
+<style>
+    .preserveLines {
+    white-space: pre-wrap;
+    line-height: inherit !important;
+}
+</style>
 @endsection
 
 @section('content')
@@ -29,7 +34,7 @@
                         {{ $item->status }}
                     </span>
                 </div>
-                <p>{{ $item->description }}</p>
+                <p class="preserveLines">{!! $item->description !!}</p>
                 @if ($item->image != null)
                     <img class="img-fluid" src="{{ $item->image }}">
                 @endif
@@ -56,9 +61,7 @@
                             {{$item->admin->name}}
                         </span>
                     </div>
-                    <p class="mt-2 mb-2">
-                        {{ $item->reply }}
-                    </p>
+                    <div class="mt-2 mb-2 preserveLines">{!! $item->reply !!}</div>
                 </div>
             </div>
         </div>
@@ -74,7 +77,7 @@
                             <div class="col-12 mb-2">
                                 <div class="form-group">
                                     <label for="reply">Reply</label>
-                                    <textarea class="form-control" rows="5" name="reply">{{ isset($item->reply) ? $item->reply : old('reply') }}</textarea>
+                                    <textarea class="form-control preserveLines" rows="5" name="reply">{{ isset($item->reply) ? $item->reply : old('reply') }}</textarea>
                                     @error('reply')
                                         <span class="error text-danger">{{ $message }}</span>
                                     @enderror

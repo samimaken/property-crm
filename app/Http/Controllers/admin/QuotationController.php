@@ -103,7 +103,8 @@ class QuotationController extends Controller
                 'client_name' => $request->client_name,
                 'number' => $item->quotation_number,
                 'token' => Crypt::encrypt($request->client_email),
-                'days' => $request->quotation_validity
+                'days' => $request->quotation_validity,
+                'status' => $item->status
             ];
             Mail::to($request->client_email)->send(new QuotationMail($data));
             return response()->json(['data' => 'Quotation Created Successfully'], 200);
@@ -173,7 +174,8 @@ class QuotationController extends Controller
                 'client_name' => $request->client_name,
                 'number' => $item->quotation_number,
                 'token' => Crypt::encrypt($request->client_email),
-                'days' => $request->quotation_validity
+                'days' => $request->quotation_validity,
+                'status' => $item->status
             ];
             Mail::to($request->client_email)->send(new QuotationMail($data));
             return response()->json(['data' => 'Quotation Updated Successfully'], 200);

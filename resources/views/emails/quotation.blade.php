@@ -1,7 +1,7 @@
 @component('mail::message')
 Dear {{$data['client_name']}},
 
-<p>We hope this email finds you well. I am writing to provide you with a quotation for requested unit/units. As discussed earlier, the quotation includes all the necessary details such as the unit description, pricing, and other information.</p>
+<p>We hope this email finds you well. {{$data['status'] == 'viewed' ? 'We are writing to provide you with a quotation for requested unit/units update.' : 'I am writing to provide you with a quotation for requested unit/units.'}} As discussed earlier, the quotation includes all the necessary details such as the unit description, pricing, and other information.</p>
 
 <p>To make it easy for you to review the quotation, I have included a "View Quotation" button below. </p>
 
