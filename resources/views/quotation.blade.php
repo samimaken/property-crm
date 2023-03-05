@@ -61,11 +61,11 @@
                                     <p class="m-0">Abu Dhabi, United Arab Emirates.</p>
                                 </div>
                                 <div class="col-md-4 col-12 order-md-2 order-1 text-right">
-                                    <p class="m-0 mt-2">Quotation No</p>
+                                    <p class="m-0 mt-2"><strong>Quotation No</strong></p>
                                     <p class="m-0">#{{$item->quotation_number}}</p>
-                                    <p class="m-0">Date</p>
+                                    <p class="m-0"><strong>Date</strong></p>
                                     <p class="m-0">{{$item->formated}}</p>
-                                    <p class="m-0">Quote Validity</p>
+                                    <p class="m-0"><strong>Quote Validity</strong></p>
                                     <p class="m-0">{{$item->quotation_validity}} Days</p>
                                 </div>
                             </div>
