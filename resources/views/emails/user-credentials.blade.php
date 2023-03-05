@@ -12,5 +12,5 @@ Login
 @endcomponent
 
 Thanks,<br>
-officespacecrm team.
+Total Business Centre
 @endcomponent

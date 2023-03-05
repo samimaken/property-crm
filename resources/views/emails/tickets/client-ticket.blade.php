@@ -5,6 +5,7 @@
 
 <p>Your ticket: {{$data['ticket_number']}}</p>
 
-<p>The Officespacecrm Support team</p>
+Best Regards <br>
+Total Business Centre
 
 @endcomponent

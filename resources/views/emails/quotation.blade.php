@@ -16,6 +16,6 @@ View Quotation Button
 <p>Thank you for considering our services. We look forward to working with you.</p>
 
 Best regards,<br>
-Officespacecrm team
+Total Business Centre
 
 @endcomponent

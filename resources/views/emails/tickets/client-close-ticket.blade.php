@@ -9,6 +9,6 @@
 Answer:
 <p>{{$data['reply']}}</p>
 
-Thanks,
-The Officespacecrm Support Team
+Best Regards <br>
+Total Business Centre
 @endcomponent

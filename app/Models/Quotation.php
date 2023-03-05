@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Quotation extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $appends = ['formated'];
 
     public function property() {
         return $this->belongsTo(Property::class, 'property_id');
@@ -26,5 +27,10 @@ class Quotation extends Model
     public function getCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+    }
+
+    public function getFormatedAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->isoFormat('Do MMMM Y');
     }
 }

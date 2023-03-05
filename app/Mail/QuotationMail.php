@@ -28,6 +28,6 @@ class QuotationMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Quotation')->markdown('emails.quotation');
+        return $this->subject('Total Business Centre - Quote Request')->markdown('emails.quotation');
     }
 }

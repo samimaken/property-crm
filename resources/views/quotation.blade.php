@@ -61,10 +61,10 @@
                                     <p class="m-0">Abu Dhabi, United Arab Emirates.</p>
                                 </div>
                                 <div class="col-md-4 col-12 order-md-2 order-1 text-right">
-                                    <p class="m-0 mt-2">Qutation No</p>
-                                    <p class="m-0">[#{{$item->quotation_number}}]</p>
+                                    <p class="m-0 mt-2">Quotation No</p>
+                                    <p class="m-0">#{{$item->quotation_number}}</p>
                                     <p class="m-0">Date</p>
-                                    <p class="m-0">[{{$item->created_at}}]</p>
+                                    <p class="m-0">{{$item->formated}}</p>
                                     <p class="m-0">Quote Validity</p>
                                     <p class="m-0">{{$item->quotation_validity}} Days</p>
                                 </div>
@@ -105,10 +105,11 @@
                                         <tr>
                                             <td rowspan="2" style="width: 50%">
                                                 <p class="m-0 mb-2">{{$key + 1}}. {{$quotationItem->unit->unit_id}}</p>
-                                                <p class="m-0 ml-2 mt-5 text-capitalize">Payment Term : {{ str_replace('_', ' ', $quotationItem->payment_term)}}</p>
+                                                <p class="m-0 ml-2 mt-5 text-capitalize">Payment Term : {{ $quotationItem->payment_term == 'unit_price_1' ? 'One Payment Rate' : ($quotationItem->payment_term == 'unit_price_2' ? 'Two Payments Rate' : 'Monthly Payment Rate')}}</p>
                                                 <p class="m-0 ml-2">Deposit Amount AED : {{$quotationItem->unit->deposit_amount}}</p>
                                                 <p class="m-0 ml-2">Furnished: {!! $quotationItem->unit->furnished == 1 ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-success">Yes</span>' !!}</p>
                                                 <p class="m-0 ml-2">Desks Allocated:  {{$quotationItem->unit->desks_allocated }}</p>
+                                                <p class="m-0 ml-2">+ VAT (5% ) - AED {{$quotationItem->amount * 0.05}}</p>
                                             </td>
                                             <td style="border-bottom: 0px">
                                                 <p class="m-0">{{$quotationItem->unit->type == 'private-unit' ? 'Private Unit' : 'Co-Space'}}</p>

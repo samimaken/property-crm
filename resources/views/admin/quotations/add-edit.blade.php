@@ -249,7 +249,8 @@
                                 <td>${value.type}</td>
                                 <td>${value.desks_allocated}</td>
                                 <td>${value.furnished == 1 ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>'}</td>
-                                <td><button type="button" class="btn btn-sm btn-primary btn-unit" data-id="${value.id}" data-selected="false" id="unit-btn-${value.id}">Select</button></td>
+                                <td><a target="_blank" class="btn btn-sm btn-primary btn-unit" href="/admin/properties/${value.property_id}/units/${value.id}">View</a>
+                                    <button type="button" class="btn btn-sm btn-primary btn-unit ml-2" data-id="${value.id}" data-selected="false" id="unit-btn-${value.id}">Select</button></td>
                             </tr>`);
                         });
                     }
@@ -291,9 +292,9 @@
                                 <div>
                                     <label>Payment Term</label>
                                     <select class="form-control unit-price" name="units[term][]" data-id="${unit.id}">
-                                        <option value="unit_price_1">Unit Price 1</option>
-                                        <option value="unit_price_2">Unit Price 2</option>
-                                        <option value="unit_price_monthly">Unit Price Monthly</option>
+                                        <option value="unit_price_1">One Payment Rate</option>
+                                        <option value="unit_price_2">Two Payments Rate</option>
+                                        <option value="unit_price_monthly">Monthly Payment Rate</option>
                                     </select>
                                 </div>
                                 <div class="ml-2">
