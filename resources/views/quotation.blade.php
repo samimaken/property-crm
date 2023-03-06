@@ -50,7 +50,7 @@
                    <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="m-0 mb-2 text-center">Officespacecrm - Quotation</h4>
+                            <h4 class="m-0 mb-2 text-center">Total Business Centre - Quotation</h4>
                             <hr>
                             <div class="row">
                                 <div class="col-md-8 col-12 order-md-1 order-2">

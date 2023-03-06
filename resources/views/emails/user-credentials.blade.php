@@ -1,8 +1,8 @@
 @component('mail::message')
 
-Welcome to officespacecrm.ae {{$data['name']}}
+Welcome to Total Business Centre {{$data['name']}}
 
-User Login Details - officespacecrm.ae
+User Login Details - Total Business Centre
 
 <p><strong>Email</strong>: {{$data['email']}} </p>
 <p><strong>Password</strong>: {{$data['password']}}</p>
