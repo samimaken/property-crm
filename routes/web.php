@@ -9,6 +9,9 @@ use App\Http\Controllers\admin\QuotationController;
 use App\Http\Controllers\QuotationController as WebQuotationController;
 use App\Http\Controllers\TicketController as WebTicketsController;
 use App\Http\Controllers\admin\TicketsController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\admin\ContractController as AdminContract;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,8 +30,18 @@ Route::get('/', function () {
 Auth::routes(['register' => false, 'reset']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//view quotation
 Route::get('quotation/{number}', [WebQuotationController::class, 'show'])->name('web.quotation');
 Route::post('quotation/reject/{number}', [WebQuotationController::class, 'rejectQuote'])->name('web.quotation.reject');
+Route::post('quotation/accept/{number}', [WebQuotationController::class, 'acceptQuote'])->name('web.quotation.accept');
+
+//view contract
+Route::get('contract/{contract}', [ContractController::class, 'index'])->name('contract');
+
+//view invoice
+Route::get('invoice/{invoice}', [InvoiceController::class, 'index'])->name('invoice');
+
 Route::group(['middleware' => 'auth'], function() {
       Route::resource('client-tickets', WebTicketsController::class)->except('edit','update','destroy');
       Route::post('/mark-as-read', [App\Http\Controllers\HomeController::class, 'markNotification'])->name('markNotification');
@@ -68,6 +81,7 @@ Route::group(['prefix'=>'admin'],function(){
         //users
         Route::resource('users', UsersManagmentController::class);
         //quotations
+        Route::get('quotations/approved', [QuotationController::class, 'approved'])->name('quotations.approved');
         Route::resource('quotations', QuotationController::class);
         Route::post('quotations/unarchive/{id}', [QuotationController::class, 'restore'])->name('quotations.unarchive');
         Route::delete('quotations/permanent/delete/{id}', [QuotationController::class, 'permanentDelete'])->name('quotations.delete');
@@ -77,6 +91,7 @@ Route::group(['prefix'=>'admin'],function(){
         Route::resource('tickets', TicketsController::class)->except('create', 'edit', 'store');
         //notification read
         Route::post('/mark-as-read', [App\Http\Controllers\admin\AdminController::class, 'markNotification'])->name('admin.markNotification');
-
+       //contract
+       Route::post('contract/{quotation}', [AdminContract::class, 'store'])->name('store.contract');
     });
 });

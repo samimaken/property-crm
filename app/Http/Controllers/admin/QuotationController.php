@@ -20,7 +20,7 @@ class QuotationController extends Controller
         if(!auth()->guard('admin')->user()->can('read-quote-requests')) {
             return abort(404);
         }
-        $query = Quotation::query()->where('status', '!=', 'rejected');
+        $query = Quotation::query()->where('status',  'pending')->orWhere('status',  'viewed');
          if($request->type == 'archived') {
             $query->onlyTrashed();
          }
@@ -31,18 +31,18 @@ class QuotationController extends Controller
             $query->onlyTrashed();
          }
         $rejected = $query->get();
-        $archived = Quotation::where('status', '!=', 'rejected')->onlyTrashed()->count();
+        $archived = Quotation::where('status',  'pending')->orWhere('status',  'viewed')->onlyTrashed()->count();
         $archived_rejected = Quotation::where('status', 'rejected')->onlyTrashed()->count();
-        $active = Quotation::where('status', '!=', 'rejected')->count();
+        $active = Quotation::where('status',  'pending')->orWhere('status',  'viewed')->count();
         return view('admin.quotations.index', compact('data'))->with('archived', $archived)->with('active',  $active)->with('rejected', $rejected)->with('archived_rejected', $archived_rejected);
     }
 
-    public function show($unit) {
+    public function show($quotation) {
         if(!auth()->guard('admin')->user()->can('read-quote-requests')) {
             return abort(404);
         }
-        $Quotation = Quotation::with('property:id,name')->where('id', $unit)->first();
-        return view('admin.quotations.show')->with('item', $Quotation);
+        $Quotation = Quotation::with('property:id,name','items')->where('id', $quotation)->first();
+        return view('admin.quotations.view')->with('item', $Quotation);
     }
 
     public function create()
@@ -193,9 +193,9 @@ class QuotationController extends Controller
         }
         try {
             Quotation::findOrFail($id)->delete();
-            return Redirect(route('quotations.index'))->with('success', 'Quotation Archived Successfully');
+            return Redirect()->back()->with('success', 'Quotation Archived Successfully');
         } catch (Exception $e) {
-            return Redirect(route('quotations.index'))->with('error', $e->getMessage());
+            return Redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -228,5 +228,20 @@ class QuotationController extends Controller
     public function getUnits(Request $request) {
         $data['units'] = PropertyUnit::where('property_id', $request->property)->get();
         return response()->json($data);
+    }
+
+    public function approved(Request $request)
+    {
+        if(!auth()->guard('admin')->user()->can('read-quote-requests')) {
+            return abort(404);
+        }
+        $query = Quotation::query()->where('status',  'approved');
+         if($request->type == 'archived') {
+            $query->onlyTrashed();
+         }
+        $data = $query->get();
+
+        $archived = Quotation::where('status', 'approved')->onlyTrashed()->count();
+        return view('admin.quotations.approved', compact('data'))->with('archived', $archived);
     }
 }

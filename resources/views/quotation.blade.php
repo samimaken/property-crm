@@ -159,10 +159,13 @@
                         @if (auth()->guard('web')->check() || request()->token && ($item->status == 'viewed' || $item->status == 'pending'))
                             <div class="card-footer text-center">
                                 <hr>
-                                <button class="btn btn-primary">Quote Accept</button>
+                                <button class="btn btn-primary" id="acceptBtn">Quote Accept</button>
                                 <button class="btn btn-danger" id="rejectBtn">Quote Reject</button>
                                 <form id="reject" method="POST" action="{{route('web.quotation.reject', ['number' => $item->quotation_number, 'token' => request()->token])}}">
                                 @csrf
+                                </form>
+                                <form id="accept" method="POST" action="{{route('web.quotation.accept', ['number' => $item->quotation_number, 'token' => request()->token])}}">
+                                    @csrf
                                 </form>
                             </div>
                         @endif
@@ -219,6 +222,9 @@
     }
     $('#rejectBtn').on('click', function() {
         $('#reject').submit();
+    })
+    $('#acceptBtn').on('click', function() {
+        $('#accept').submit();
     })
     </script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -77,4 +77,33 @@ class QuotationController extends Controller
             return abort(404);
         }
     }
+
+    public function acceptQuote(Request $request, $number) {
+        $quotation = Quotation::where('quotation_number', $number)->first();
+        if ($quotation == null) {
+            return abort(404);
+        }
+        if ($request->token) {
+            $email = Crypt::decrypt($request->token);
+            if($email == $quotation->client_email) {
+                $quotation->status = 'approved';
+                $quotation->save();
+                return  Redirect()->back()->with('success', 'Quotation Accepted Successfully');
+            }
+             else {
+                return abort(404);
+             }
+        }  else if (Auth::guard('web')->check()) {
+            $user = auth()->user();
+            if ($user->email == $quotation->client_email) {
+                $quotation->status = 'approved';
+                $quotation->save();
+                return  Redirect()->back()->with('success', 'Quotation Accepted Successfully');
+            } else {
+                return abort(404);
+            }
+        } else {
+            return abort(404);
+        }
+    }
 }

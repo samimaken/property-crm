@@ -28,6 +28,10 @@ class Quotation extends Model
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
+    public function getUpdatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+    }
 
     public function getFormatedAttribute()
     {
